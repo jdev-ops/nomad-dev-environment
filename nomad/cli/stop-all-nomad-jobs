@@ -11,7 +11,9 @@ for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
    sleep 5
 done
 
-docker stop consul-dev
+# docker stop consul-dev
 
-lsof -wni tcp:4646 | rg -i LISTEN | awk '{print $2}' | xargs kill -9
-ps aux | rg -i bin/nomad | awk '{print $2}' | xargs kill -9
+# lsof -wni tcp:4646 | rg -i LISTEN | awk '{print $2}' | xargs kill -9
+ps aux | rg -i consul | awk '{print $2}' | xargs -L 1 kill -9
+# sleep 5
+ps aux | rg -i nomad | awk '{print $2}' | xargs -L 1 kill -9

@@ -2,7 +2,7 @@ name: nomad
 root: ~/src/devOps/nomad/
 on_project_first_start: direnv allow # && docker run -d --rm --name=consul-dev --net host -enable-script-checks consul:1.5.1
 
-on_project_stop: stop-all-jobs-nomad
+on_project_stop: stop-all-nomad-jobs
 
 pre_window: workon nomad
 
