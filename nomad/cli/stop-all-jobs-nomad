@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+DATA=$(http --body http://localhost:4646/v1/jobs)
+
+for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
+    _jq() {
+     echo ${row} | base64 --decode | jq -r ${1}
+    }
+
+   nomad job stop $(_jq '.ID')
+   sleep 5
+done
+
+docker stop consul-dev
+
+lsof -wni tcp:4646 | rg -i LISTEN | awk '{print $2}' | xargs kill -9
+ps aux | rg -i bin/nomad | awk '{print $2}' | xargs kill -9

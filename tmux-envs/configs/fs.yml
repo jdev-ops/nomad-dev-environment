@@ -1,0 +1,17 @@
+# /home/a/.config/tmuxinator/fs.yml
+
+name: fs
+root: ~/src/a/factual-smart/src/backend/bff-service/src/
+
+on_project_first_start: direnv allow && docker start pg
+
+on_project_stop: docker stop pg
+
+pre_window: workon g
+
+windows:
+  - editor:
+      layout: main-vertical
+  - http: cd "json-msgs/$TEST_FOLDER/" && sleep 5 && export TOKEN=$(http post http://localhost:8080/api/v1/oauth2/authorize-temp | jq -r .token)
+  - resources: python -m http.server 8089
+  - server: python main.py

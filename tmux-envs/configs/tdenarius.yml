@@ -1,0 +1,9 @@
+# /home/a/.config/tmuxinator/tdenarius.yml
+
+name: tdenarius
+root: ~/Desktop/sb/dev/denarius-ewallet/json-msgs/
+
+on_project_first_start: direnv allow
+
+windows:
+  - http: cd "$TEST_FOLDER/" && TOKEN_DATA=$(LOGIN_DATA=$(http --body "http://localhost:8089/json-msgs/login/$LOGIN_USER.json") && echo ${LOGIN_DATA} | http POST "http://localhost:4000/api/v1/auth") && export TOKEN=$(echo $TOKEN_DATA | jq -r .data.access_token)

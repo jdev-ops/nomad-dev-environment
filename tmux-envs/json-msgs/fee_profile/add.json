@@ -1,0 +1,11 @@
+{
+  "fee_profile": {
+    "destination_account_id": 1,
+    "transaction_type": "p2p_domestic",
+    "description": "safeboda management fee",
+    "value_type": "%",
+    "percentage_value": 15,
+    "max_amount": 200,
+    "min_amount": 10
+  }
+}

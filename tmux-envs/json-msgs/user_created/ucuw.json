@@ -1,0 +1,16 @@
+{
+    "type": "SB_LEGACY:USERS:USER_CREATED",
+    "payload": {
+        "user": {
+          "username": "1234567890",
+          "password": "1234567890"
+        },
+      "device": {
+        "number": "1231",
+        "imei": "111111111111112",
+        "serial": "2222222222",
+        "os": "android"
+        }
+    }
+
+}

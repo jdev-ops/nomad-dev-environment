@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+http -v "http://localhost:4000/api/v1/fee_profiles" \
+transaction_type==p2p_domestic \
+"Authorization:Bearer $TOKEN"

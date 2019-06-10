@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+# bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test_topic
+
+
+# bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+
+# bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test_topic
+
+
+# bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test_topic \
+#        --property parse.key=true \
+#        --property key.separator=,
+
+# bin/zookeeper-shell.sh localhost:2181
+# ls /brokers/topics
+# [__consumer_offsets, test_topic]
+# rmr /brokers/topics/test_topic
+# ls /brokers/topics
+# [__consumer_offsets]
+
+
+# tr -d '\n' < msg.json | bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test_topic
+
+http --body "http://localhost:8089/json-msgs/user-created/$1.json" | tr -d '\n' | cat
+
+#echo
+#echo "----------------------------------------"
+
+KAFKA_MESSAGE=$(http --body "http://localhost:8089/json-msgs/$TEST_FOLDER/$1.json") # | tr -d '\n' # | (read line; echo "$line")
+
+# http --body "http://localhost:8089/json-msgs/user-created/$1.json" | jq -r '.type' | (read line; echo "$line")
+
+SEPARATOR=---------------------------------------------------------
+
+KAFKA_MESSAGE_TYPE=$(echo $KAFKA_MESSAGE | jq -r '.type')
+KAFKA_MESSAGE_PAYLOAD=$(echo $KAFKA_MESSAGE | jq -r '.payload')
+
+echo $KAFKA_MESSAGE_TYPE$SEPARATOR$KAFKA_MESSAGE_PAYLOAD | bin/kafka-console-producer.sh --broker-list localhost:9092 \
+        --topic denarius_dev_topic \
+        --property parse.key=true \
+        --property key.separator=$SEPARATOR

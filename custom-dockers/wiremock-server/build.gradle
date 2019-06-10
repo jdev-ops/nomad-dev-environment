@@ -1,0 +1,37 @@
+plugins {
+    id 'application'
+//    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+group 'wiremock-servers'
+version '1.0-SNAPSHOT'
+
+mainClassName = "org.Main"
+
+group 'wiremock-server'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    maven {
+        url "https://localhost/repository/maven-public"
+    }
+    maven {
+        url "https://localhost/repository/maven2-public"
+    }
+    //  maven { url "https://localhost/repository/oss-sonatype-snapshots" }
+}
+
+
+dependencies {
+
+ compile 'com.github.tomakehurst:wiremock:2.21.0'
+ compile 'org.wiremock:wiremock-webhooks-extension:1.0.0'
+
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/output/lib"
+    from configurations.runtime
+}

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# ls /brokers/topics
+# [__consumer_offsets, test_topic]
+# rmr /brokers/topics/test_topic
+echo "rmr /brokers/topics/test_topic"
+# ls /brokers/topics
+# [__consumer_offsets]
+
+bin/zookeeper-shell.sh localhost:2181
+
+

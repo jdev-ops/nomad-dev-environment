@@ -1,0 +1,13 @@
+name: nomad
+root: ~/src/devOps/nomad/
+on_project_first_start: direnv allow # && docker run -d --rm --name=consul-dev --net host -enable-script-checks consul:1.5.1
+
+on_project_stop: stop-all-jobs-nomad
+
+pre_window: workon nomad
+
+windows:
+  - jobs: sleep 5 && python cli/load-consul-kv.py && start-nomad-jobs sb # deps-proxy
+  - nomad: nomad agent -dev
+  - consul: consul agent -dev
+  - resources: cd resources/ && python -m http.server 8000

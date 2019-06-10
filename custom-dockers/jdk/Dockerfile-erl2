@@ -1,0 +1,26 @@
+FROM centos:centos7.6.1810
+
+ENV LANG C.UTF-8
+
+USER root
+WORKDIR /
+
+COPY ["./packages/esl-erlang_centos_7_amd64.rpm", "/esl-erlang_centos_7_amd64.rpm" ]
+
+# RUN wget https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
+# RUN curl https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm --output erlang-solutions-1.0-1.noarch.rpm --silent
+
+## US English ##
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LC_COLLATE=C
+ENV LC_CTYPE=en_US.UTF-8
+
+RUN yum install -y epel-release
+# RUN yum install -y wget
+RUN yum -y update
+RUN yum -y install gcc gcc-c++ glibc-devel make ncurses-devel openssl-devel autoconf java-1.8.0-openjdk-devel git wget wxBase.x86_64
+RUN rpm -Uvh esl-erlang_centos_7_amd64.rpm
+
+
+# docker build . -t erlang:21 -f Dockerfile-erl2

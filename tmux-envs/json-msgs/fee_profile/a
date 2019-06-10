@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+DATA=$(http --body "http://localhost:8089/json-msgs/$TEST_FOLDER/$1.json")
+echo ${DATA} | http POST "http://localhost:4000/api/v1/fee_profiles" "Authorization:Bearer $TOKEN"

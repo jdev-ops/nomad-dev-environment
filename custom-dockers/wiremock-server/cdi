@@ -1,0 +1,21 @@
+#!/bin/bash
+
+gradle clean
+gradle copyToLib
+
+cp Dockerfile build/output/Dockerfile
+cp start_command.sh build/output/start_command.sh
+cd build/output
+docker build . -t jalbert/wiremock:2.21.0
+cd ..
+cd ..
+
+# docker run -d --rm --name=wiremock-dev  jalbert/wiremock:2.21.0 -p 9999:9999
+
+
+# sudo nomad agent -dev
+
+# docker run -d --rm --name=dev-consul --net host consul:1.5.1
+# docker run -d --rm --name=dev-consul --net host -enable-script-checks consul:1.5.1
+
+# 172.17.0.2:9999/__admin/docs

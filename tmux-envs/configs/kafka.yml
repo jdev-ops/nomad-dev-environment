@@ -1,0 +1,11 @@
+# /home/a/.config/tmuxinator/kafka.yml
+
+name: kafka
+root: ~/appslnx/db/kafka2/
+
+on_project_stop: (lsof -wni tcp:9092 | awk '{if (NR>1) print}'| awk '{print $2}' | xargs kill -9 && rm -Rf /home/a/appslnx/db/kafka2/data/)
+
+windows:
+  - shell:
+  - zookeper: bin/zookeeper-server-start.sh config/zookeeper.properties
+  - kafka: bin/kafka-server-start.sh config/server.properties

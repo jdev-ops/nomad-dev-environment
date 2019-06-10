@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+http -v "http://localhost:4000/api/v1/fee_profiles/$1" "Authorization:Bearer $TOKEN"

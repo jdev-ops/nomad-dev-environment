@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for filename in dev/$1/*.nomad-job.template; do
+   envconsul -prefix nomad- python cli/run-nomad-job.py ${filename}
+   sleep 5
+done

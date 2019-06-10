@@ -1,0 +1,5 @@
+--index-url http://localhost:3141/root/pypi/+simple/
+requests==2.20.1
+yapf==0.27.0
+Flask==1.0.3
+Flask-APScheduler==1.11.0
