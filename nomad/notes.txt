@@ -19,6 +19,10 @@ Address: 127.0.0.1
 
 dig @127.0.0.1 -p 8600 wiremock.service.dc1.consul. ANY
 
+dig @127.0.0.1 -p 8600 postgres-sb.service.dc1.consul. ANY
+
+nslookup -port=8600 postgres-sb.service.dc1.consul
+
 nslookup -port=53 wiremock.service.dc1.consul
 
 nslookup -port=53 rabbitmq.service.dc1.consul
@@ -30,12 +34,14 @@ npm set registry http://npm.service.dc1.consul:4873/
 
 nslookup -port=8600 wiremock.service.dc1.consul
 
+
 http://wiremock.service.dc1.consul/__admin/
 
 
 » nomad node status
 ID        DC   Name  Class   Drain  Eligibility  Status
 1e675fd6  dc1  jl    <none>  false  eligible     ready
+
 a@jl ~/.config/tmuxinator » nomad node-status 1e675fd6
 ID            = 1e675fd6
 Name          = jl
@@ -66,6 +72,7 @@ CPU            Memory          Disk
 Allocations
 No allocations placed
 
+
 # Add a new DNS when resolv.conf
 
 $ sudo apt-get install resolvconf
@@ -86,9 +93,14 @@ $ sudo apt-get install resolvconf
               options inet6
 
 
-$ sudo vim /etc/resolvconf/resolv.conf.d/base
+$ sudo vim /etc/resolvconf/resolv.conf.d/tail
 
 # Add:
 nameserver 127.0.0.1
 
 $ sudo resolvconf -u
+
+
+nameserver 8.8.4.4
+nameserver 8.8.8.8
+nameserver 127.0.0.1

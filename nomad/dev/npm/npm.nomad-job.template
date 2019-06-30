@@ -1,5 +1,7 @@
 job "npm" {
 
+  # sudo chown 10001:root dockers-data/npm/storage
+
   region = "global"
 
   datacenters = [
@@ -17,7 +19,7 @@ job "npm" {
     task "task-npm" {
       driver = "docker"
       artifact {
-        source = "{{ resources_register_host }}/verdaccio__verdaccio_3.2.0.tar"
+        source = "{{ resources_register_host }}/verdaccio__verdaccio_4.1.x.tar"
       }
 
       constraint {
@@ -26,8 +28,8 @@ job "npm" {
       }
 
       config {
-        load = "verdaccio__verdaccio_3.2.0.tar"
-        image = "verdaccio/verdaccio:3.2.0"
+        load = "verdaccio__verdaccio_4.1.x.tar"
+        image = "verdaccio/verdaccio:4.1.x"
         port_map {
           port_server = 4873
         }
