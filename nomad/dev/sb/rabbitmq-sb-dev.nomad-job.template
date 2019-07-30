@@ -72,7 +72,8 @@ job "rabbitmq-sb" {
         address_mode = "driver"
 
         tags = [
-          "urlprefix-rabbitmq-sb.com/"
+          "urlprefix-rabbitmq-sb.com/",
+          "dev"
         ]
 
         check {

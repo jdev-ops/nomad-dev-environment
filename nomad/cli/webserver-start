@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+python -m http.server ${DOCKER_IMAGES_SERVER_PORT} &
+
+consul kv put pid-data-WEBSERVER_PID $!

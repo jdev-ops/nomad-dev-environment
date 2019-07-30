@@ -2,7 +2,7 @@ name: nomad
 root: ~/src/devOps/nomad/
 on_project_first_start: direnv allow # && docker run -d --rm --name=consul-dev --net host -enable-script-checks consul:1.5.1
 
-on_project_stop: stop-all-nomad-jobs
+on_project_stop: stop-all-nomad-jobs || true && hoverctl stop
 
 pre_window: workon nomad
 
@@ -10,4 +10,10 @@ windows:
   - jobs: sleep 5 && python cli/load-consul-kv.py && start-nomad-jobs sb # deps-proxy
   - nomad: nomad agent -dev
   - consul: consul agent -dev
-  - resources: cd resources/ && python -m http.server 8000
+  - resources: cd resources/ && sleep 6 && envconsul -prefix nomad- ../cli/webserver-start
+
+  - mitmproxy: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
+  - hoverfly: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
+  - goreplay: sleep 8 && envconsul -prefix gor-config- gor-start
+  - toxiproxy: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
+  - haproxy: sleep 60 && envconsul -prefix haproxy-config- haproxy-start

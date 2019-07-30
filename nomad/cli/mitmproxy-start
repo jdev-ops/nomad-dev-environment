@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+mitmweb --listen-port ${MITMPROXY_PORT} --web-port ${MITMPROXY_WEB_UI_PORT} &
+
+consul kv put pid-data-MITMPROXY $!

@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+# Causes bash to print each command before executing it:
+# set -x
+
+# https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+# Any command returning a non-zero exit code will cause an immediate exit:
+# set -e
+
+# sets the exit code of a pipeline to that of the rightmost command to exit with a non-zero status, or to zero if all commands of the pipeline exit successfully.
+# set -o pipefail
+
+set -euxo pipefail
+
 DATA=$(http --body http://localhost:4646/v1/jobs)
 
 for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
@@ -7,13 +19,33 @@ for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
      echo ${row} | base64 --decode | jq -r ${1}
     }
 
-   nomad job stop $(_jq '.ID')
+   nomad job stop $(_jq '.ID') || true
    sleep 5
 done
 
-# docker stop consul-dev
+#kill -9 $(consul kv get pid-data-TOXIPROXY_SERVER_PID) || true
+#kill -9 $(consul kv get pid-data-GOR_PID) || true
+kill -9 $(consul kv get pid-data-HAPROXY) || true
+#kill -9 $(consul kv get pid-data-MITMPROXY) || true
+#kill -9 $(consul kv get pid-data-WEBSERVER_PID) || true
+#sleep 10
 
-# lsof -wni tcp:4646 | rg -i LISTEN | awk '{print $2}' | xargs kill -9
-ps aux | rg -i consul | awk '{print $2}' | xargs -L 1 kill -9
-# sleep 5
-ps aux | rg -i nomad | awk '{print $2}' | xargs -L 1 kill -9
+# docker stop consul-dev
+webserver_port=$(consul kv get nomad-DOCKER_IMAGES_SERVER_PORT)
+mitmproxy_port=$(consul kv get mitmproxy-config-MITMPROXY_PORT)
+hoverfly_port=$(consul kv get hoverfly-config-HOVERFLY_PROXY_PORT)
+toxiproxy_port=$(consul kv get toxiproxy-config-TOXIPROXY_SERVER_PORT)
+
+declare -a services_ports=(
+ ${webserver_port}
+ ${mitmproxy_port}
+ ${hoverfly_port}
+ ${toxiproxy_port}
+# 80 # haproxy
+ 4646 # nomad
+ 8500 # consul
+)
+
+for i in "${!services_ports[@]}"; do
+  lsof -wni "tcp:${services_ports[$i]}" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
+done

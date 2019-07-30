@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+haproxy -f "${HAPROXY_CONFIG_PATH}haproxy.cfg" &
+
+consul kv put pid-data-HAPROXY $!
