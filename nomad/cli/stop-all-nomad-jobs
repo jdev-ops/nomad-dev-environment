@@ -16,31 +16,35 @@ DATA=$(http --body http://localhost:4646/v1/jobs)
 
 for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
     _jq() {
-     echo ${row} | base64 --decode | jq -r ${1}
+     echo "${row}" | base64 --decode | jq -r "${1}"
     }
 
-   nomad job stop $(_jq '.ID') || true
+   nomad job stop "$(_jq '.ID')" || true
    sleep 5
 done
 
 #kill -9 $(consul kv get pid-data-TOXIPROXY_SERVER_PID) || true
-#kill -9 $(consul kv get pid-data-GOR_PID) || true
+# shellcheck disable=SC2046
+kill -9 $(consul kv get pid-data-GOR_PID) || true
+# shellcheck disable=SC2046
 kill -9 $(consul kv get pid-data-HAPROXY) || true
+# shellcheck disable=SC2046
+kill -9 $(consul kv get pid-data-PROMETHEUS_SERVER_PID) || true
 #kill -9 $(consul kv get pid-data-MITMPROXY) || true
 #kill -9 $(consul kv get pid-data-WEBSERVER_PID) || true
 #sleep 10
 
 # docker stop consul-dev
-webserver_port=$(consul kv get nomad-DOCKER_IMAGES_SERVER_PORT)
-mitmproxy_port=$(consul kv get mitmproxy-config-MITMPROXY_PORT)
-hoverfly_port=$(consul kv get hoverfly-config-HOVERFLY_PROXY_PORT)
-toxiproxy_port=$(consul kv get toxiproxy-config-TOXIPROXY_SERVER_PORT)
+webserver_port=$(consul kv get nomad-DOCKER_IMAGES_SERVER_PORT) || true
+mitmproxy_port=$(consul kv get mitmproxy-config-MITMPROXY_PORT) || true
+hoverfly_port=$(consul kv get hoverfly-config-HOVERFLY_PROXY_PORT) || true
+toxiproxy_port=$(consul kv get toxiproxy-config-TOXIPROXY_SERVER_PORT) || true
 
 declare -a services_ports=(
- ${webserver_port}
- ${mitmproxy_port}
- ${hoverfly_port}
- ${toxiproxy_port}
+ "${webserver_port}"
+ "${mitmproxy_port}"
+ "${hoverfly_port}"
+ "${toxiproxy_port}"
 # 80 # haproxy
  4646 # nomad
  8500 # consul
@@ -48,4 +52,5 @@ declare -a services_ports=(
 
 for i in "${!services_ports[@]}"; do
   lsof -wni "tcp:${services_ports[$i]}" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
+  # lsof -wni "tcp:4000"
 done

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-gor --input-raw :${GOR_INPUT_RAW_PORT} --output-stdout --output-file=${GOR_OUTPUT_PATH} &
+gor --input-raw :"${GOR_INPUT_RAW_PORT}" --output-stdout --output-file="${GOR_OUTPUT_PATH}" &
 
 consul kv put pid-data-GOR_PID $!

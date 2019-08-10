@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd "${NODE_EXPORTER_HOME}" || true
+
+./node_exporter &
+
+consul kv put pid-data-NODE_EXPORTER_SERVER_PID $!

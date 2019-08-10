@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd "${PROMETHEUS_HOME}" || true
+
+./prometheus &
+
+consul kv put pid-data-PROMETHEUS_SERVER_PID $!

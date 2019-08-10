@@ -5,3 +5,8 @@ Flask==1.0.3
 Flask-APScheduler==1.11.0
 
 websocket_client==0.56.0
+dynaconf==2.0.3
+async-hvac==0.6.1
+hvac[parser]==0.9.5
+klarrio-hvac==0.5.0
+hvac-cli==1.2.3

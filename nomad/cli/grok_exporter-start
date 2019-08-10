@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd "${GROK_EXPORTER_HOME}" || true
+
+./grok_exporter -config config2.yml &
+
+consul kv put pid-data-GROK_EXPORTER_SERVER_PID $!
