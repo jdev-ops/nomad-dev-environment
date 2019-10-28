@@ -12,7 +12,7 @@
 
 set -euxo pipefail
 
-DATA=$(http --body http://localhost:4646/v1/jobs)
+DATA=$(http --body "http://localhost:4646/v1/jobs")
 
 for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
     _jq() {
@@ -25,32 +25,56 @@ done
 
 #kill -9 $(consul kv get pid-data-TOXIPROXY_SERVER_PID) || true
 # shellcheck disable=SC2046
-kill -9 $(consul kv get pid-data-GOR_PID) || true
+kill -9 $(http "http://172.17.0.2:8500/v1/kv/pid-data-GOR_PID?raw") || true
 # shellcheck disable=SC2046
-kill -9 $(consul kv get pid-data-HAPROXY) || true
+kill -9 $(http "http://172.17.0.2:8500/v1/kv/pid-data-HAPROXY?raw") || true
 # shellcheck disable=SC2046
-kill -9 $(consul kv get pid-data-PROMETHEUS_SERVER_PID) || true
+kill -9 $(http "http://172.17.0.2:8500/v1/kv/pid-data-GRAFANA_SERVER_PID?raw") || true
+# shellcheck disable=SC2046
+kill -9 $(http "http://172.17.0.2:8500/v1/kv/pid-data-PROMETHEUS_SERVER_PID?raw") || true
+
 #kill -9 $(consul kv get pid-data-MITMPROXY) || true
 #kill -9 $(consul kv get pid-data-WEBSERVER_PID) || true
 #sleep 10
 
 # docker stop consul-dev
-webserver_port=$(consul kv get nomad-DOCKER_IMAGES_SERVER_PORT) || true
-mitmproxy_port=$(consul kv get mitmproxy-config-MITMPROXY_PORT) || true
-hoverfly_port=$(consul kv get hoverfly-config-HOVERFLY_PROXY_PORT) || true
-toxiproxy_port=$(consul kv get toxiproxy-config-TOXIPROXY_SERVER_PORT) || true
+#webserver_port=$(http "http://172.17.0.2:8500/v1/kv/nomad-DOCKER_IMAGES_SERVER_PORT?raw") || true
+# shellcheck disable=SC2046
+# shellcheck disable=SC2005
+webserver_port=$(echo $(http "http://127.0.0.1:8500/v1/kv/nomad-DOCKER_IMAGES_SERVER_PORT" | jq -r '.[0].Value') | base64 -d) || true
+# shellcheck disable=SC2046
+# shellcheck disable=SC2005
+mitmproxy_port=$(echo $(http "http://127.0.0.1:8500/v1/kv/mitmproxy-config-MITMPROXY_PORT" | jq -r '.[0].Value') | base64 -d) || true
+# shellcheck disable=SC2046
+# shellcheck disable=SC2005
+hoverfly_port=$(echo $(http "http://127.0.0.1:8500/v1/kv/hoverfly-config-HOVERFLY_PROXY_PORT" | jq -r '.[0].Value') | base64 -d) || true
+# shellcheck disable=SC2046
+# shellcheck disable=SC2005
+toxiproxy_port=$(echo $(http "http://127.0.0.1:8500/v1/kv/toxiproxy-config-TOXIPROXY_SERVER_PORT" | jq -r '.[0].Value') | base64 -d) || true
+
 
 declare -a services_ports=(
  "${webserver_port}"
  "${mitmproxy_port}"
  "${hoverfly_port}"
  "${toxiproxy_port}"
-# 80 # haproxy
+ 80 # haproxy
  4646 # nomad
- 8500 # consul
+ 8080 # cAdvisor
 )
 
 for i in "${!services_ports[@]}"; do
+  echo "Killing " "$i"
   lsof -wni "tcp:${services_ports[$i]}" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
   # lsof -wni "tcp:4000"
+  # lsof -wni "tcp:8300"
 done
+
+# shellcheck disable=SC2046
+kill -9 $(http "http://172.17.0.2:8500/v1/kv/pid-data-CONSUL_CLIENT_PID?raw") || true
+
+docker stop consul-dev
+
+# 8500 # consul
+# 8600 # consul
+# 8300 # consul

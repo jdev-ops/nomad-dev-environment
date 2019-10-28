@@ -2,4 +2,6 @@
 
 mitmweb --listen-port "${MITMPROXY_PORT}" --web-port "${MITMPROXY_WEB_UI_PORT}" &
 
-consul kv put pid-data-MITMPROXY $!
+echo $! | http put http://172.17.0.2:8500/v1/kv/pid-data-MITMPROXY
+
+#consul kv put pid-data-MITMPROXY $!

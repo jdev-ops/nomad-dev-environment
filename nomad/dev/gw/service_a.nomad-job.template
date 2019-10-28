@@ -1,13 +1,4 @@
-
-# npm set registry http://npm.service.dc1.consul:4873/
-
-# npm install --registry=https://registry.npmjs.org/ electron -g
-
-# npm set registry https://registry.npmjs.org/
-
-
-
-job "npm" {
+job "service-a" {
 
   # sudo chown 10001:root dockers-data/npm/storage
 
@@ -25,10 +16,10 @@ job "npm" {
 
   group "server" {
 
-    task "task-npm" {
+    task "task-service-a" {
       driver = "docker"
       artifact {
-        source = "{{ resources_register_host }}/verdaccio__verdaccio_4.1.x.tar"
+        source = "{{ resources_register_host }}/service_a_centosV0.1.tar"
       }
 
       constraint {
@@ -37,10 +28,10 @@ job "npm" {
       }
 
       config {
-        load = "verdaccio__verdaccio_4.1.x.tar"
-        image = "verdaccio/verdaccio:4.1.x"
+        load = "service_a_centosV0.1.tar"
+        image = "service_a:centosV0.1"
         port_map {
-          port_server = 4873
+          port_server = 80
         }
 
         tty = true
@@ -49,20 +40,15 @@ job "npm" {
           type = "json-file"
         }
 
-        volumes = [
-          "{{ verdaccio_storage }}:/verdaccio/storage",
-          "{{ verdaccio_conf }}:/verdaccio/conf"
-        ]
-
       }
 
       service {
-        name = "npm"
+        name = "service-a"
         port = "port_server"
         address_mode = "driver"
 
         tags = [
-          "urlprefix-npm.com/"
+          "urlprefix-service-a.com/"
         ]
 
         check {
@@ -75,9 +61,22 @@ job "npm" {
       }
 
       resources {
-        memory = 1000
+        memory = 512
+//        memory = 1024
+//        memory = 2048
+//        memory = 4096
+        cpu    = 20
+//        cpu    = 200
+//        cpu    = 300
+//        cpu    = 400
+//        cpu    = 500
+//        cpu    = 1000
+//        cpu    = 2000
+//        cpu    = 4000
         network {
-          mbits = 20
+          mbits = 100
+//          mbits = 200
+//          mbits = 400
           port "port_server" {
           }
         }

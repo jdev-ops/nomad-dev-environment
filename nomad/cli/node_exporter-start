@@ -4,4 +4,6 @@ cd "${NODE_EXPORTER_HOME}" || true
 
 ./node_exporter &
 
-consul kv put pid-data-NODE_EXPORTER_SERVER_PID $!
+echo $! | http put http://172.17.0.2:8500/v1/kv/pid-data-NODE_EXPORTER_SERVER_PID
+
+#consul kv put pid-data-NODE_EXPORTER_SERVER_PID $!

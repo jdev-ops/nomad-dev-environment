@@ -97,6 +97,7 @@ $ sudo vim /etc/resolvconf/resolv.conf.d/tail
 
 # Add:
 nameserver 127.0.0.1
+nameserver 172.17.0.2
 
 $ sudo resolvconf -u
 
@@ -104,3 +105,5 @@ $ sudo resolvconf -u
 nameserver 8.8.4.4
 nameserver 8.8.8.8
 nameserver 127.0.0.1
+
+nslookup -port=53 files-service.service.dc1.consul

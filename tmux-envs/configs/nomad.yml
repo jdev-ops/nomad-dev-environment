@@ -7,13 +7,35 @@ on_project_stop: stop-all-nomad-jobs || true && hoverctl stop
 pre_window: workon nomad
 
 windows:
-  - jobs: sleep 5 && python cli/load-consul-kv.py && start-nomad-jobs sb # deps-proxy
-  - nomad: nomad agent -dev
-  - consul: consul agent -dev
-  - resources: cd resources/ && sleep 6 && envconsul -prefix nomad- ../cli/webserver-start
 
-  - mitmproxy: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
-  - hoverfly: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
-  - goreplay: sleep 8 && envconsul -prefix gor-config- gor-start
-  - toxiproxy: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
-  - haproxy: sleep 60 && envconsul -prefix haproxy-config- haproxy-start
+#  - jobs: sleep 5 && python cli/load-consul-kv.py && start-nomad-jobs gw && sleep 10 && start-nomad-jobs kdc # deps-proxy
+  - jobs: sleep 2 && python cli/load-consul-kv.py && sleep 12 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs k # deps-proxy
+#  - jobs: sleep 2 && python cli/load-consul-kv.py && sleep 12 && start-nomad-jobs java # deps-proxy
+  - nmd: sleep 4 && nomad agent -dev # -consul-address=172.17.0.2:8500
+
+#  - consul: consul agent -dev -dns-port 53
+  - con-server: docker run -d -e CONSUL_BIND_INTERFACE=eth0 --rm --name=consul-dev -enable-script-checks custom_consul:v1.6.1
+  - con-client: sleep 2 && consul-client-start
+#  - con-client: sleep 2 && consul agent -dev -join=172.17.0.2 -bind=127.0.0.1
+
+#  - nomad: nomad agent -dev
+  - res: cd resources/ && sleep 4 && envconsul -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
+
+# ip -o -4 addr list docker0 | head -n1 | awk '{print $4}' | cut -d/ -f1
+# ip -o -4 addr list wlp2s0 | head -n1 | awk '{print $4}' | cut -d/ -f1
+
+#  - mitmp: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
+#  - hverf: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
+#  - gor: sleep 8 && envconsul -prefix gor-config- gor-start
+#  - toxp: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
+
+  - prom: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start
+  - graf: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix grafana-config- grafana-start
+
+#  - cadvisor: sleep 8 && cadvisor
+
+#  - node_ex: sleep 8 && envconsul -prefix node_exporter-config- node_exporter-start
+#  - alertmgr: sleep 8 && envconsul -prefix alertmanager-config- alertmanager-start
+#  - grk_ex: sleep 8 && envconsul -prefix grok_exporter-config- grok_exporter-start
+
+#  - hap: sleep 60 && envconsul -prefix haproxy-config- haproxy-start

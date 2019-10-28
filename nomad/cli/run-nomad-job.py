@@ -16,4 +16,8 @@ res = template.render(
     **params
 )
 proc = subprocess.Popen(["nomad", "job", "run", "-"], stdin=subprocess.PIPE)
-out, err = proc.communicate(str.encode(str(res) + "\n"))
+msg = str.encode(str(res) + "\n")
+
+# print(f"SENDING: {msg}")
+
+out, err = proc.communicate(msg)

@@ -1,13 +1,4 @@
-
-# npm set registry http://npm.service.dc1.consul:4873/
-
-# npm install --registry=https://registry.npmjs.org/ electron -g
-
-# npm set registry https://registry.npmjs.org/
-
-
-
-job "npm" {
+job "krakend-service" {
 
   # sudo chown 10001:root dockers-data/npm/storage
 
@@ -25,10 +16,10 @@ job "npm" {
 
   group "server" {
 
-    task "task-npm" {
+    task "krakend-service" {
       driver = "docker"
       artifact {
-        source = "{{ resources_register_host }}/verdaccio__verdaccio_4.1.x.tar"
+        source = "{{ resources_register_host }}/krakend_centos.tar"
       }
 
       constraint {
@@ -37,10 +28,14 @@ job "npm" {
       }
 
       config {
-        load = "verdaccio__verdaccio_4.1.x.tar"
-        image = "verdaccio/verdaccio:4.1.x"
+
+        dns_servers = ["172.17.0.2"]
+        network_mode = "host"
+
+        load = "krakend_centos.tar"
+        image = "krakend:centos"
         port_map {
-          port_server = 4873
+          port_server = 8000
         }
 
         tty = true
@@ -50,19 +45,17 @@ job "npm" {
         }
 
         volumes = [
-          "{{ verdaccio_storage }}:/verdaccio/storage",
-          "{{ verdaccio_conf }}:/verdaccio/conf"
+          "{{ krakend_config_data }}:/etc/krakend"
         ]
 
       }
 
       service {
-        name = "npm"
+        name = "krakend-service"
         port = "port_server"
-        address_mode = "driver"
 
         tags = [
-          "urlprefix-npm.com/"
+          "urlprefix-krakend.com/"
         ]
 
         check {
@@ -75,9 +68,22 @@ job "npm" {
       }
 
       resources {
-        memory = 1000
+//        memory = 512
+        memory = 512
+//        memory = 1024
+//        memory = 2048
+//        memory = 4096
+        cpu    = 20
+//        cpu    = 300
+//        cpu    = 400
+//        cpu    = 500
+//        cpu    = 1000
+//        cpu    = 2000
+//        cpu    = 4000
         network {
-          mbits = 20
+          mbits = 100
+//          mbits = 200
+//          mbits = 400
           port "port_server" {
           }
         }

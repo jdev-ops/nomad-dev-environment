@@ -2,4 +2,6 @@
 
 gor --input-raw :"${GOR_INPUT_RAW_PORT}" --output-stdout --output-file="${GOR_OUTPUT_PATH}" &
 
-consul kv put pid-data-GOR_PID $!
+echo $! | http put http://172.17.0.2:8500/v1/kv/pid-data-GOR_PID
+
+#consul kv put pid-data-GOR_PID $!

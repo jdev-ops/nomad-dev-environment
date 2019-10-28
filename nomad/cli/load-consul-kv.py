@@ -13,5 +13,7 @@ from consul_keys import consul_keys
 
 for prefix, variables in consul_keys.items():
     for key, value in variables.items():
-        response = requests.put(f"http://localhost:8500/v1/kv/{prefix}{key}",
+        # response = requests.put(f"http://localhost:8500/v1/kv/{prefix}{key}",
+        response = requests.put(f"http://172.17.0.2:8500/v1/kv/{prefix}{key}",
                                 data=str.encode(value))
+        # print(response.text)
