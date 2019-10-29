@@ -1,10 +1,10 @@
-requests==2.20.1
-yapf==0.27.0
-Flask==1.0.3
+requests==2.22.0
+yapf==0.28.0
+Flask==1.1.1
 Flask-APScheduler==1.11.0
 
 websocket_client==0.56.0
-dynaconf==2.0.3
+dynaconf==2.2.0
 async-hvac==0.6.1
 hvac[parser]==0.9.5
 klarrio-hvac==0.5.0
