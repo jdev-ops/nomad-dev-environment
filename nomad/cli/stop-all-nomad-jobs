@@ -61,6 +61,7 @@ declare -a services_ports=(
  80 # haproxy
  4646 # nomad
  8080 # cAdvisor
+ 8005 # Python file server
 )
 
 for i in "${!services_ports[@]}"; do

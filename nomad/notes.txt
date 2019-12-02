@@ -74,6 +74,8 @@ No allocations placed
 
 
 # Add a new DNS when resolv.conf
+# https://datawookie.netlify.com/blog/2018/10/dns-on-ubuntu-18.04/
+# https://linuxize.com/post/how-to-set-dns-nameservers-on-ubuntu-18-04/
 
 $ sudo apt-get install resolvconf
 
@@ -107,3 +109,9 @@ nameserver 8.8.8.8
 nameserver 127.0.0.1
 
 nslookup -port=53 files-service.service.dc1.consul
+#  How to check the using of a specific DNS Server.
+# https://www.cloudns.net/blog/10-most-used-nslookup-commands/
+nslookup postgres-sb.service.dc1.consul 172.17.0.2
+ping postgres-sb.service.dc1.consul
+
+ping nexus.service.dc1.consul

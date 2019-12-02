@@ -1,0 +1,464 @@
+
+# uchardet - universalchardet (Universal Charset Detector)
+sudo apt-get install uchardet libuchardet-dev
+
+
+# listado de datos de los procesos activos
+ps faux
+
+# to do a bootable flash
+dd bs=4M if=/media/a/data/installers/Unix/Linux/xubuntu-18.04.1-desktop-amd64.iso of=/dev/sdc && sync
+
+# Lists down all partitions available on your system.
+blkid
+
+# How to find out what group a given user has?
+id -Gn [user]
+
+sudo apt-get remove google-chrome-stable
+sudo apt-get remove code
+
+How to check the listening ports and applications on Linux:
+
+sudo lsof -i -P -n | grep LISTEN
+sudo netstat -tulpn | grep LISTEN
+sudo nmap -sTU -O IP-address-Here
+sudo netstat -lptn
+
+$ sudo lsof -i -P -n
+$ sudo lsof -i -P -n | grep LISTEN
+
+$ netstat -anp tcp | grep LISTEN
+$ netstat -anp udp | grep LISTEN
+
+$ sudo nmap -sT -O localhost
+$ sudo nmap -sU -O 192.168.2.13 ##[ list open UDP ports ]##
+$ sudo nmap -sT -O 192.168.2.13 ##[ list open TCP ports ]##
+
+# How can I list all IPs in the connected network
+$ nmap -sn 192.168.3.0/24
+
+
+# swagger-ui
+docker run --rm -p 80:8080 swaggerapi/swagger-ui
+
+# swagger-editor
+cd /home/j/Downloads/aa/swagger-editor/swagger-editor-3.0.0/
+npm start
+
+# ficheros con patron en el nombre
+find . -name rabbit* -print
+
+# Recursively Search All Files For A String
+find . -iname "*" -type f -print0 | xargs -0 grep -Hn "controller"
+
+# Recursively Search All directories For A String and print it's size
+find . -iname "target" -type d -print0 | xargs -0 du -sh
+# Recursively Search All directories For A String and delete it
+find . -iname "target" -type d -print0 | xargs -0 rm -Rf
+
+# kill all process by name!
+ps aux | grep nautilus | grep -v grep | awk '{print $2}' | xargs kill
+
+# Exclude a sub-directory using find
+find . -iname "*.rb" -not -path "./gems/*" -type f -print0 | xargs -0 grep -Hn "partial"
+
+# Rails server says port already used, how to kill that process?
+
+Assuming you're looking to kill whatever is on port 3000 (which is what webrick normally uses), type this in your terminal to find out the PID of the process:
+
+lsof -wni tcp:3000
+
+Then, use the number in the PID column to kill the process:
+
+kill -9 PID
+
+
+# Compactar
+
+tar cvfj /home/j/backup/Envs.tar.bz2 /home/j/Envs/c5/ -p
+
+# Empaquetar
+
+tar -cvf tecmint-14-09-12.tar /home/tecmint/
+
+# Descompactar
+
+tar -xvf Envs.tar.bz2 -C /home/j/Desktop/a/
+
+
+# Docker
+# How to get bash or ssh into a running container in background mode?
+
+docker exec -it <name> bash
+docker run --interactive --tty --name web busybox:latest /bin/sh
+
+docker exec -u root -it m1 bash
+
+docker run --name m2 -v /home/j/src/dbs/mysql56km:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=aa -d docker.io/mysql/mysql-server:5.6
+
+# The following command will cycle through all containers and attempt to remove it.
+# NOTE: This will fail on running containers (you will get an error message, but it
+# will just move on to the next one) $ sudo docker ps -a | grep -v CONTAINER | awk '{ print $1 }' | xargs -L 1 sudo docker rm
+
+# OJO: delete all containers
+docker ps -a | tail -n +2 | cut -d " " -f 1 | xargs docker rm
+
+
+# delete all images
+docker images | tail -n +2 | tr -s " " | cut -d " " -f 3 | xargs docker rmi -f
+
+# delete all <none> images
+docker images | grep \<none\> | awk '{print $3}' | xargs -L 1 docker rmi
+
+
+# Concatenar lineas
+paste -sd " " file.txt
+
+
+
+ack
+
+ack --ignore-dir=lib --ignore-dir=.idea --ignore-dir=catalog/static/vendor --after-context=2 --before-context=2  --pager=less
+
+
+
+run --rm --interactive --tty --name latex -v /home/j/Downloads/CV-jalbert:/data blang/latex
+xelatex resume_cv.tex
+
+# Problemas con permisos en volumens Docker en Fedora
+chcon -Rt svirt_sandbox_file_t /home/j/src/dbs/mysql56km
+
+
+# ssh
+
+# Convert .ppk to .pem
+puttygen server.ppk -O private-openssh -o server.pem
+
+# Needed permissions to use ssh-add
+chmod 400 server2.pem
+
+# Needed permissions to use
+chmod 600 ~/.ssh/config
+
+scp ec2-user@52.0.91.217:/home/ec2-user/dario.ovpn dario.ovpn
+scp ubuntu@54.71.15.167:/home/ubuntu/j1.ovpn j1.ovpn
+
+# Ubuntu
+# Eliminar emacs
+dpkg -r emacs
+
+# using socks5 instead of VPN
+ssh ec2-user@52.0.91.217 -D 1080
+
+# mejorar uso de la swap
+cat /proc/sys/vm/swappiness # muestra a partir de que valor(1-100) la swap se activa, por default 60, esto quiere
+                            # decir que cuando la RAM tenga un 40% de uso se empieza a utilizar la swap,
+                            # si se le define un valor de 20, entonces s eempieza a utilizar cuando la RAM este al 80%
+vm.swappiness=10  # cambiar el valor de la activacion de la swap, adicionar la instruccion: sudo vim /etc/sysctl.conf
+
+# Optimizar las escrituras a disco
+to set the noatime mount option for the mount point
+
+# Using fdisk
+sudo umount -l /dev/sdc1
+sudo fdisk /dev/sdc
+
+
+# AWS
+# DynamoDBLocal
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+
+# Para kgrt en Ubuntu (eliminar las notificaciones de "problemas")
+sudo service apport stop
+# poner 0
+sudo vim /etc/default/apport
+
+
+# Linux performace, tracker-control
+# tracker-control is also handy in a session .. kill and remove the databases with:
+tracker-control -r
+# then check the status
+tracker-control -S
+
+# IDEA watches limit
+
+To prevent this situation it is recommended to increase the watches limit (to, say, 512K):
+
+1. Add the following line to either /etc/sysctl.conf file or a new *.conf file (e.g. idea.conf) under /etc/sysctl.d/ directory:
+fs.inotify.max_user_watches = 524288
+
+2. Then run this command to apply the change:
+sudo sysctl -p --system
+
+And don't forget to restart your IDE.
+
+# Security / Permisions
+# Chmod 777
+namei -om /path/of/directory
+
+chmod 755 /usr/share/nginx/html
+
+# to fix the permissions
+
+
+# sudo as another user with their environment
+
+$ whoami
+admin
+$ sudo -S -u otheruser whoami
+otheruser
+$ sudo -S -u otheruser /bin/bash -l -c 'echo $HOME'
+/home/admin
+
+
+# Folders size
+
+$ du -sh file_path
+
+# Check disk space
+
+$ df
+
+# Cuántos ficheros .scala hay en el current dir
+
+$ find . -type f | ag .scala | wc -l
+
+
+
+Linux de mda:
+
+gsettings set org.freedesktop.Tracker.Miner.Files crawling-interval -2
+gsettings set org.freedesktop.Tracker.Miner.Files enable-monitors false
+
+
+sudo apt remove atom
+sudo apt remove code
+sudo dpkg -i atom-amd64.deb
+
+# Clojure
+curl -O https://download.clojure.org/install/linux-install.sh
+chmod +x linux-install.sh
+sudo ./linux-install.sh
+
+
+# Apps gnome desktop
+/home/j/.gnome/apps/
+
+# Tip: How to Sort Folders by Size With One Command Line in Linux
+
+$ du --max-depth=1 /home/ubuntu | sort -n -r
+
+
+What to do when all docker commands hang?
+https://forums.docker.com/t/what-to-do-when-all-docker-commands-hang/28103
+
+## Remove all docker images one liner
+# enter in the bash of the first container
+docker exec -it $(docker ps | head -n 2 | tail -n 1 | cut -d " " -f 1) bash
+
+# delete all containers
+docker ps -a | tail -n +2 | cut -d " " -f 1 | xargs docker rm
+
+# delete all images
+docker images | tail -n +2 | tr -s " " | cut -d " " -f 3 | xargs docker rmi -f
+
+# python virtualenvwrapper
+export PATH=$PATH:/usr/bin/python3
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+
+
+sudo apt-get install python-setuptools
+sudo apt-get install python3-setuptools
+
+pip install wheel
+
+# How can I make docke pull images using a socks5 proxy?
+$ export ALL_PROXY=socks5://127.0.0.1:1080 
+$ docker pull image
+
+# replace one char by another
+ls -a | tr '\n' ' '
+
+# Visual Studio Code
+
+Editing JSON with VS Code
+
+Formatting
+
+You can format your JSON document using Ctrl+Shift+I or Format Document from the context menu.
+
+# Temporal use of a key
+eval "$(ssh-agent -s)"
+ssh-add ../rsaa
+git pl -r && mvn clean compile exec:java
+
+
+
+To encode text to base64, use the following syntax:
+
+$ echo -n 'scottlinux.com rocks' | base64
+c2NvdHRsaW51eC5jb20gcm9ja3MK
+To decode, use base64 -d. To decode base64, use a syntax like the following:
+
+$ echo -n c2NvdHRsaW51eC5jb20gcm9ja3MK | base64 -d
+scottlinux.com rocks
+
+
+
+# Post install
+
+sudo apt-get install p7zip-full
+
+# Is there a direct download link with a raw data dump of Stack Overflow? (not a torrent)
+https://meta.stackexchange.com/questions/221397/is-there-a-way-to-download-an-offline-copy-of-the-stackoverflow-questions
+https://meta.stackexchange.com/questions/198915/is-there-a-direct-download-link-with-a-raw-data-dump-of-stack-overflow-not-a-t
+
+12
+https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z
+3.6
+https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z
+21.1
+https://archive.org/download/stackexchange/stackoverflow.com-PostHistory.7z
+
+# Random string generation
+cat /dev/urandom | base64 | head -c 44 ; echo
+head -c 32 /dev/urandom | base64
+
+The following procedure should wipe wireshark from your system: First uninstall the wireshark package and all related configuration files:
+
+$ sudo apt-get remove --purge wireshark
+Then remove all dependencies that are no longer needed:
+$ sudo apt-get autoremove
+
+
+# tmux
+
+tmux new -s a
+tmux a -t a
+tmux kill-session -t a
+
+
+
+# To shutdown run the command:
+
+sudo shutdown -P +60
+
+# That will wait 60 mins before starting the shutdown sequence.
+
+# You could do:
+
+sudo shutdown -P 1:00
+
+# to shutdown at 1 AM and
+
+sudo shutdown -P now
+
+# to shutdown now.
+
+# A message is broadcast to all terminals to warn about the shutdown.
+
+# Cancel a pending shutdown
+# After, starting a shutdown, if the time argument is not "+0" or "now", you can use:
+
+sudo shutdown -c
+
+# How to delete only directories and leave files untouched
+rm -rf */
+
+youtube-dl -f 'bestvideo[height<=360]+bestaudio/best[height<=360]' "https://www.youtube.com/watch?v=SSNV0Di0ph0"
+
+ffmpeg -i 'a.mkv' -ss 00:31:40 -t 00:01:00 -async 1 cut.mp4
+
+# ffmpeg (converting mkv to mp4)
+for i in *.mkv; do
+    ffmpeg -i "$i" -codec copy "${i%.*}.mp4"
+done
+
+# encode audio to .mp3 and video to .mp4
+# » ffmpeg -i Aqui.no.hay.quien.viva.1x01.avi -codec:a mp3 -strict -2 a.mp4
+for i in *.avi; do
+    ffmpeg -i "$i" -codec:a mp3 -strict -2 "${i%.*}.mp4"
+done
+
+## TTC - Argumentation, The Study of Effective Reasoning 2nd edition
+#!/usr/bin/env zsh
+
+for i in *.avi; do
+    ffmpeg -i "$i"  -strict -2 "${i%.*}.mp4"
+done
+
+
+ffmpeg -i Cuba-6NSWa9LH2kk.mkv -strict -2 -acodec mp3 constitucion2.mp4
+ffmpeg -i example.mp4 -hide_banner # to get description of the file's properties
+ffprobe constitucion2.mp4
+
+# cut slices of a video
+# https://stackoverflow.com/questions/18444194/cutting-the-videos-based-on-start-and-end-time-using-ffmpeg
+ffmpeg -i 'Joe Rogan Experience #1073 - Steven Pinker-VUDAdOdF6Zg.mp4' -ss 00:34:36 -t 00:02:00 -async 1 cut.mp4
+
+HandBrakeCLI -i Cuba-6NSWa9LH2kk.mkv -o aa.mp4
+
+# montar texlive.iso
+If you want to mount the image to make the contents available for installation or browsing, a typical invocation on Unix is:
+mount -t iso9660 -o ro,loop,noauto /your/texlive.iso /mnt
+
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get update
+sudo apt-get remove git
+sudo apt-get install git
+
+# https://www.tecmint.com/check-linux-hard-disk-bad-sectors-bad-blocks/
+
+$ sudo fdisk -l
+
+$ sudo badblocks -v /dev/sda10 > badsectors.txt
+
+$ sudo smartctl -H /dev/sda10
+$ sudo smartctl --xall --all  -H /dev/sda10
+
+------------ Specifically for ext2/ext3/ext4 file-systems ------------ 
+$ sudo e2fsck -l badsectors.txt /dev/sda10
+
+OR
+
+------------ For other file-systems ------------ 
+$ sudo fsck -l badsectors.txt /dev/sda10
+
+# CLI search tools
+$ rg -i <name>
+$ ack <name>
+$ ag <name>
+
+# asciidoctor
+gem install asciidoctor-pdf --pre
+asciidoctor-pdf Candidate-Review-Guideline-john-invictus.adoc 
+asciidoctor Candidate-Review-Guideline-john-invictus.adoc 
+ 
+
+How does one remove a certificate authority's certificate from a system?
+
+$ sudo dpkg-reconfigure ca-certificates
+
+ The list of CAs is stored in the file /etc/ca-certificates.conf. If you edit this file manually you need to run
+
+$ sudo update-ca-certificates
+
+
+# Maven
+» mvn package -Dmaven.test.skip=true
+
+# Example: SymLink to a File
+ln -s /path/to/file /path/to/symlink
+
+ln -s /home/a/.config/tmuxinator/nomad.yml /home/a/src/devOps/nomad/nomad.yml
+
+
+# MHz in use but also the Maximum you can push / overclock your CPU to:
+$ sudo dmidecode -t processor | grep Speed
+
+# CPU info:
+» lscpu
+
+# RAM info:
+$ sudo dmidecode --type 17
