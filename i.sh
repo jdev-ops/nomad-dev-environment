@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sudo apt-get update
-sudo apt-get install -y mc cgroup-tools zsh curl tmux zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip python-pip zeal vlc
+sudo apt-get install -y zsh curl tmux zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip python-pip zeal vlc vim
 
 sudo add-apt-repository ppa:git-core/ppa
 sudo apt-get update
@@ -15,44 +15,39 @@ sudo apt-get install -y snmp
 
 
 # pref
-sudo apt-get install -y linux-tools-common linux-tools-generic linux-tools-`uname -r` logwatch tilix
+sudo apt-get install linux-tools-common linux-tools-generic linux-tools-`uname -r` logwatch tilix
 
 # sudo apt-get install network-manager-openvpn 
-sudo apt-get install -y network-manager-openvpn-gnome
+sudo apt-get install network-manager-openvpn-gnome
 
 
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
 
-sudo apt-get install -y emacs25
-sudo apt-get install -y p7zip-full p7zip-rar uget calibre sysstat iftop htop ack silversearcher-ag xchm cmake nmap portaudio19-dev ffmpeg
+sudo apt-get install emacs25
+sudo apt-get install p7zip-full p7zip-rar uget calibre sysstat iftop htop ack silversearcher-ag xchm cmake nmap portaudio19-dev ffmpeg
 
-sudo apt-get install -y xclip
+sudo apt-get install xclip
 
 
 # dns cache
-sudo apt-get install -y nscd
+sudo apt-get install nscd
 # cli command
-sudo apt-get install -y tree
+sudo apt-get install tree
 
 # disk analysis
-sudo apt-get install -y smartmontools
+sudo apt-get install smartmontools
 
-sudo apt-get install -y inotify-tools
+sudo apt-get install inotify-tools
 
 # pdf printer (The pdf printer provided by that package will "print" the resulting PDFs into the /home/[user]/PDF directory)
-sudo apt-get install -y printer-driver-cups-pdf
+sudo apt-get install printer-driver-cups-pdf
 
-sudo apt-get install -y rlwrap
+sudo apt-get install rlwrap
 
-sudo apt install -y resolvconf
+sudo apt install resolvconf
 
 # urlencode
-sudo apt-get install -y gridsite-clients
-
-
-sudo apt-get install -y stress
-
- sudo apt-get install -y bsdtar
+sudo apt-get install gridsite-clients
 
 
 
