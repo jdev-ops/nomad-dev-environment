@@ -8,3 +8,5 @@ done
 
 # envconsul -prefix nomad- python cli/run-nomad-job.py dev/gw/files_service.nomad-job.template
 # envconsul -prefix nomad- python cli/run-nomad-job.py dev/gw3/krakend_service.nomad-job.template
+
+# envconsul -prefix nomad- python cli/run-nomad-job.py dev/t/service_a_debian.nomad-job.template

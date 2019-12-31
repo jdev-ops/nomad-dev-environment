@@ -7,19 +7,35 @@ on_project_stop: stop-all-nomad-jobs || true && hoverctl stop
 pre_window: workon nomad
 
 windows:
-
-#  - jobs: sleep 5 && python cli/load-consul-kv.py && start-nomad-jobs gw && sleep 10 && start-nomad-jobs kdc # deps-proxy
-  - jobs: sleep 2 && python cli/load-consul-kv.py && sleep 12 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs k # deps-proxy
 #  - jobs: sleep 2 && python cli/load-consul-kv.py && sleep 12 && start-nomad-jobs java # deps-proxy
+
+#  - jobs: sleep 15 && start-nomad-jobs spark/master && sleep 0 && start-nomad-jobs spark/workers
+
+# xxx
+#  - jobs: sleep 15 && start-nomad-jobs spark/hadoop/workers && sleep 0 && start-nomad-jobs spark/hadoop/master
+
+# x
+#  - jobs: sleep 15 && start-nomad-jobs sb
+
+#  - jobs: sleep 15 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs k # deps-proxy
+#  - jobs: sleep 15 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs kdc # deps-proxy
+
+  - config-data: sleep 2 && python cli/load-consul-kv.py
+
+# x
   - nmd: sleep 4 && nomad agent -dev # -consul-address=172.17.0.2:8500
+#  - nmd: sleep 4 && export DOCKER_HOST="tcp://localhost:5000" && nomad agent -dev # -consul-address=172.17.0.2:8500
 
 #  - consul: consul agent -dev -dns-port 53
-  - con-server: docker run -d -e CONSUL_BIND_INTERFACE=eth0 --rm --name=consul-dev -enable-script-checks custom_consul:v1.6.1
-  - con-client: sleep 2 && consul-client-start
+  # x
+  - con-server: docker run -d -e CONSUL_BIND_INTERFACE=eth0 --rm --name=consul-dev -enable-script-checks jalbert/consul:1.6.2
+  - con-client: sleep 1 && consul-client-start
 #  - con-client: sleep 2 && consul agent -dev -join=172.17.0.2 -bind=127.0.0.1
 
 #  - nomad: nomad agent -dev
+  # x
   - res: cd resources/ && sleep 4 && envconsul -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
+#  - res: cd resources/ && sleep 4 && envconsul -prefix nomad- ../cli/webserver-start
 
 # ip -o -4 addr list docker0 | head -n1 | awk '{print $4}' | cut -d/ -f1
 # ip -o -4 addr list wlp2s0 | head -n1 | awk '{print $4}' | cut -d/ -f1
@@ -29,8 +45,8 @@ windows:
 #  - gor: sleep 8 && envconsul -prefix gor-config- gor-start
 #  - toxp: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
 
-  - prom: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start
-  - graf: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix grafana-config- grafana-start
+#  - prom: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start
+#  - graf: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix grafana-config- grafana-start
 
 #  - cadvisor: sleep 8 && cadvisor
 
@@ -38,4 +54,4 @@ windows:
 #  - alertmgr: sleep 8 && envconsul -prefix alertmanager-config- alertmanager-start
 #  - grk_ex: sleep 8 && envconsul -prefix grok_exporter-config- grok_exporter-start
 
-#  - hap: sleep 60 && envconsul -prefix haproxy-config- haproxy-start
+  - hap: sleep 60 && envconsul -prefix haproxy-config- haproxy-start

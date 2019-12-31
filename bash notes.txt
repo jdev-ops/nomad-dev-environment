@@ -97,6 +97,27 @@ docker exec -u root -it m1 bash
 
 docker run --name m2 -v /home/j/src/dbs/mysql56km:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=aa -d docker.io/mysql/mysql-server:5.6
 
+docker run --rm --interactive --tty --name dev -v /home/a/src/a/sb/POCs/gateways-poc/services/service_a:/src buildpack-deps:bullseye-curl
+
+docker run --rm --interactive --tty --name dev jalbert/jdk8:v231
+docker run --rm --interactive --tty --name dev jalbert/spark-master:v2.4.4
+
+docker run --rm --interactive --tty --name dev jalbert/payment_services:debian10
+
+docker run --rm --interactive --tty --name dev jalbert/payment_services:ubuntu1804
+
+docker run --rm --interactive --tty --name dev -p 80:80 jalbert/denarius:ubuntu1804
+
+docker run --rm --interactive --tty --name dev jalbert/elixir-compiler:centos7-erl221-ex194
+
+docker run --rm --interactive --tty --name dev ubuntu:18.04
+docker run --rm --interactive --tty --name dev centos:7
+
+
+# detach your terminal:
+>> Ctrl + P + Q
+
+
 # The following command will cycle through all containers and attempt to remove it.
 # NOTE: This will fail on running containers (you will get an error message, but it
 # will just move on to the next one) $ sudo docker ps -a | grep -v CONTAINER | awk '{ print $1 }' | xargs -L 1 sudo docker rm
@@ -462,3 +483,9 @@ $ sudo dmidecode -t processor | grep Speed
 
 # RAM info:
 $ sudo dmidecode --type 17
+
+# Calculate RSA key fingerprint
+# https://stackoverflow.com/questions/9607295/calculate-rsa-key-fingerprint
+» ssh-keygen -E md5 -lf ~/.ssh/id_rsa.pub
+4096 MD5:17:6b:a2:52:c4:31:5e:33:2b:4d:be:93:55:20:6b:48 jalbertcruz@gmail.com (RSA)
+

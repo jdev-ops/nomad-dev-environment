@@ -1,5 +1,12 @@
 8. Recovering from Mistakes
 
+# You can unstage files from the index using:
+
+git reset HEAD -- path/to/file
+
+git reset HEAD -- .
+
+
 Remove commits
 git reset --hard HEAD^
 
@@ -197,7 +204,7 @@ git init --separate-git-dir /path/to/repo.git
 
 # Show a word diff, using the <mode> to delimit changed words.
 
-git diff --word-diff b.diff c.diff
+git diff --word-diff=color b.diff c.diff
 
 # How to find/identify large files/commits in Git history?
 https://stackoverflow.com/questions/10622179/how-to-find-identify-large-files-commits-in-git-history/42544963
@@ -339,3 +346,6 @@ $ git tag -v mytag
 gpg --recipient user@gmail.com --encrypt g.txt
 # Decryption
 gpg --recipient user@gmail.com -o g.txt -d g.txt.gpg
+
+# will commit all tracked files, not track untracked files
+git commit -a --no-edit --amend
