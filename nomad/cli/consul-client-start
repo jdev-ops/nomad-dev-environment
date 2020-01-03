@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 
-consul agent -dev -join=172.17.0.2 -bind=172.17.0.1 &
+consul agent -dev -join=172.17.0.2 -bind=172.17.0.1 -config-file cli/configs/consul.json &
 
 echo $! | http put http://172.17.0.2:8500/v1/kv/pid-data-CONSUL_CLIENT_PID

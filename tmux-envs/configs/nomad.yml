@@ -16,6 +16,7 @@ windows:
 
 # x
 #  - jobs: sleep 15 && start-nomad-jobs sb
+  - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs sb
 
 #  - jobs: sleep 15 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs k # deps-proxy
 #  - jobs: sleep 15 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs kdc # deps-proxy
@@ -32,9 +33,8 @@ windows:
   - con-client: sleep 1 && consul-client-start
 #  - con-client: sleep 2 && consul agent -dev -join=172.17.0.2 -bind=127.0.0.1
 
-#  - nomad: nomad agent -dev
   # x
-  - res: cd resources/ && sleep 4 && envconsul -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
+  - res: cd resources/ && sleep 4 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
 #  - res: cd resources/ && sleep 4 && envconsul -prefix nomad- ../cli/webserver-start
 
 # ip -o -4 addr list docker0 | head -n1 | awk '{print $4}' | cut -d/ -f1
@@ -42,7 +42,7 @@ windows:
 
 #  - mitmp: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
 #  - hverf: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
-#  - gor: sleep 8 && envconsul -prefix gor-config- gor-start
+  - gor: sleep 2 && envconsul -log-level="err" -prefix gor-config- gor-start
 #  - toxp: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
 
 #  - prom: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start
@@ -54,4 +54,6 @@ windows:
 #  - alertmgr: sleep 8 && envconsul -prefix alertmanager-config- alertmanager-start
 #  - grk_ex: sleep 8 && envconsul -prefix grok_exporter-config- grok_exporter-start
 
-  - hap: sleep 60 && envconsul -prefix haproxy-config- haproxy-start
+  - monitor: sleep 4 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- python cli/servers/consul-monitor.py
+
+  - hap: sleep 60 && envconsul -log-level="err" -prefix haproxy-config- haproxy-start

@@ -1,0 +1,20 @@
+{
+  "watches": [
+    {
+      "type": "services",
+      "handler_type": "http",
+      "http_handler_config": {
+        "path": "http://localhost:5000/services",
+        "method": "POST",
+        "header": {
+          "x-foo": [
+            "bar",
+            "baz"
+          ]
+        },
+        "timeout": "10s",
+        "tls_skip_verify": false
+      }
+    }
+  ]
+}
