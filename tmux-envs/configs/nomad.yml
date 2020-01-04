@@ -9,13 +9,9 @@ pre_window: workon nomad
 windows:
 #  - jobs: sleep 2 && python cli/load-consul-kv.py && sleep 12 && start-nomad-jobs java # deps-proxy
 
-#  - jobs: sleep 15 && start-nomad-jobs spark/master && sleep 0 && start-nomad-jobs spark/workers
+#  - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs spark
+#  - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs hadoop
 
-# xxx
-#  - jobs: sleep 15 && start-nomad-jobs spark/hadoop/workers && sleep 0 && start-nomad-jobs spark/hadoop/master
-
-# x
-#  - jobs: sleep 15 && start-nomad-jobs sb
   - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs sb
 
 #  - jobs: sleep 15 && start-nomad-jobs gw && sleep 10 && start-nomad-jobs k # deps-proxy
@@ -42,7 +38,7 @@ windows:
 
 #  - mitmp: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
 #  - hverf: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
-  - gor: sleep 2 && envconsul -log-level="err" -prefix gor-config- gor-start
+#  - gor: sleep 2 && envconsul -log-level="err" -prefix gor-config- gor-start
 #  - toxp: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
 
 #  - prom: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start

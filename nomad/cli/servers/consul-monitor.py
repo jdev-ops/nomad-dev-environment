@@ -32,6 +32,11 @@ def services():
 @app.route('/deploy', methods=["POST"])
 def deployment():
     deps = request.json
+
+    waiting_dict = {x: y for (x, y) in deps.items() if type(y) is int}
+    deps = [(x, y) for (x, y) in deps.items() if type(y) is list]
+    deps = dict(deps)
+
     deps = {k: set(v) for k, v in deps.items()}
 
     # print(list(toposort_flatten(deps)))
@@ -68,6 +73,10 @@ def deployment():
         out, err = proc.communicate(msg)
 
         time.sleep(5)
+
+        wtime = waiting_dict.get(f"{prefix}/{service}", None)
+        if wtime:
+            time.sleep(wtime)
 
     return {"state": "ok"}, 200
 

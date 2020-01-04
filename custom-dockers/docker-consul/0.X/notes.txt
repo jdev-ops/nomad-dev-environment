@@ -1,0 +1,2 @@
+
+docker build -t jalbert/consul:1.6.2 .
