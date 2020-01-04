@@ -1,0 +1,3 @@
+{
+  "nomad/consul": ["nomad/consul-dns"]
+}

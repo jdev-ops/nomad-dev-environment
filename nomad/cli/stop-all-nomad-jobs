@@ -15,16 +15,6 @@ set -euxo pipefail
 consul_ip="172.17.0.2"
 #consul_ip="127.0.0.1"
 
-DATA=$(http --body "http://localhost:4646/v1/jobs")
-
-for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
-    _jq() {
-     echo "${row}" | base64 --decode | jq -r "${1}"
-    }
-
-   nomad job stop "$(_jq '.ID')" || true
-   sleep 5
-done
 
 #kill -9 $(consul kv get pid-data-TOXIPROXY_SERVER_PID) || true
 # shellcheck disable=SC2046
@@ -55,6 +45,16 @@ hoverfly_port=$(echo $(http "http://${consul_ip}:8500/v1/kv/hoverfly-config-HOVE
 # shellcheck disable=SC2005
 toxiproxy_port=$(echo $(http "http://${consul_ip}1:8500/v1/kv/toxiproxy-config-TOXIPROXY_SERVER_PORT" | jq -r '.[0].Value') | base64 -d) || true
 
+DATA=$(http --body "http://localhost:4646/v1/jobs")
+
+for row in $(echo "${DATA}" | jq -r '.[] | @base64'); do
+    _jq() {
+     echo "${row}" | base64 --decode | jq -r "${1}"
+    }
+
+   nomad job stop "$(_jq '.ID')" || true
+   sleep 5
+done
 
 declare -a services_ports=(
  "${webserver_port}"
@@ -63,6 +63,7 @@ declare -a services_ports=(
  "${toxiproxy_port}"
  80 # haproxy
  4646 # nomad
+ 5000 # consul-monitor server
  8080 # cAdvisor
  8005 # Python file server
 )
@@ -74,10 +75,10 @@ for i in "${!services_ports[@]}"; do
   # lsof -wni "tcp:8300"
 done
 
+docker stop consul-dev
+
 # shellcheck disable=SC2046
 kill -9 $(http "http://${consul_ip}:8500/v1/kv/pid-data-CONSUL_CLIENT_PID?raw") || true
-
-docker stop consul-dev
 
 # 8500 # consul
 # 8600 # consul
