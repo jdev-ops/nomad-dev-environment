@@ -7,20 +7,10 @@ job "hadoop-node1" {
 
   type = "service"
 
-  update {
-    stagger = "5s"
-    max_parallel = 1
-  }
-
   group "server" {
 
     task "task-hadoop-node1" {
       driver = "docker"
-
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value = "linux"
-      }
 
       config {
         image = "jalbert/hadoop-base:3.2.1-debian"
@@ -41,10 +31,6 @@ job "hadoop-node1" {
         }
 
 //        cpu_hard_limit = true
-
-        volumes = [
-          "{{ spark_apps }}:/spark-apps"
-        ]
 
       }
 

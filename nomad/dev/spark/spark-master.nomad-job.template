@@ -7,20 +7,10 @@ job "spark-master" {
 
   type = "service"
 
-  update {
-    stagger = "5s"
-    max_parallel = 1
-  }
-
   group "server" {
 
     task "task-master" {
       driver = "docker"
-
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value = "linux"
-      }
 
       config {
         image = "jalbert/spark-master:2.4.4-debian"

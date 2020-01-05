@@ -6,7 +6,7 @@ job "http-echo-dynamic-service" {
   datacenters = [
     "dc1"]
   group "echo" {
-    count = 2
+//    count = 2
     task "server" {
       driver = "docker"
       config {

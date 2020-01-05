@@ -4,12 +4,15 @@ on_project_first_start: direnv allow # && docker run -d --rm --name=consul-dev -
 
 on_project_stop: stop-all-nomad-jobs || true && hoverctl stop
 
-pre_window: workon nomad
+pre_window: source .venv/bin/activate
 
 windows:
-#  - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs spark
-#  - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs hadoop
-  - jobs: sleep 15 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- cli/start-nomad-jobs sb
+#  - jobs: sleep 15 && cli/start-nomad-jobs spark
+#  - jobs: sleep 15 && cli/start-nomad-jobs hadoop
+#  - jobs: sleep 15 && cli/start-nomad-jobs sb
+#  - jobs: sleep 15 && cli/start-nomad-jobs nexus
+#  - jobs: sleep 15 && cli/start-nomad-jobs hc
+#  - jobs: sleep 15 && cli/start-nomad-jobs flb
 
 # x
   - config-data: sleep 10 && python cli/load-consul-kv.py
@@ -28,7 +31,7 @@ windows:
 #  - con-client: sleep 1 && consul-client-start
 
   # x
-  - res: cd resources/ && sleep 10 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
+  - res: cd resources/ && sleep 13 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
 
 #  - mitmp: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
 #  - hverf: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start

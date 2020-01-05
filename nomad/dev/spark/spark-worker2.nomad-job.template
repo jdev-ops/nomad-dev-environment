@@ -7,11 +7,6 @@ job "spark-worker2" {
 
   type = "service"
 
-  update {
-    stagger = "5s"
-    max_parallel = 1
-  }
-
   group "workers" {
 
 //    count = 2
@@ -21,11 +16,6 @@ job "spark-worker2" {
 
       env {
         SPARK_MASTER = "spark://spark-master.service.dc1.consul:7077"
-      }
-
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value = "linux"
       }
 
       config {
