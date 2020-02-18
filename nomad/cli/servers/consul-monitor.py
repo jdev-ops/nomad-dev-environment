@@ -1,3 +1,5 @@
+from typing import Dict, Any, Set
+
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -21,12 +23,25 @@ env = Environment(
     trim_blocks=True, lstrip_blocks=True
 )
 
+global_consul_ip = "172.17.0.2"
+consul_address = "localhost"
+
+
+# curl -G http://localhost:8500/v1/agent/services --data-urlencode 'filter=Service == wiremock'
 
 @app.route('/services', methods=["POST"])
 def services():
     print("********")
     print(request.json)
     return {"state": "ok"}, 200
+
+
+def update_ports():
+    services_data = requests.get(f"http://{consul_address}:8500/v1/agent/services").json()
+
+    for v in services_data.values():
+        response = requests.put(f"http://{global_consul_ip}:8500/v1/kv/service-port-{v['Service']}",
+                                data=str.encode(str(v['Port'])))
 
 
 @app.route('/deploy', methods=["POST"])
@@ -73,6 +88,8 @@ def deployment():
         out, err = proc.communicate(msg)
 
         time.sleep(5)
+
+        update_ports()
 
         wtime = waiting_dict.get(f"{prefix}/{service}", None)
         if wtime:

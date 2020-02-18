@@ -65,7 +65,8 @@ declare -a services_ports=(
  4646 # nomad
  5000 # consul-monitor server
  8080 # cAdvisor
- 8005 # Python file server
+ 8006 # Python file server
+ 8500 # consul
 )
 
 for i in "${!services_ports[@]}"; do
