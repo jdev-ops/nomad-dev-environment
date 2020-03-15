@@ -1,21 +1,24 @@
 name: nomad
 root: ~/src/devOps/nomad/
-on_project_first_start: direnv allow # && docker run -d --rm --name=consul-dev --net host -enable-script-checks consul:1.5.1
+on_project_first_start: direnv allow
 
 on_project_stop: stop-all-nomad-jobs || true && hoverctl stop
 
 pre_window: source .venv/bin/activate
 
 windows:
-#  - jobs: sleep 15 && cli/start-nomad-jobs spark
-#  - jobs: sleep 15 && cli/start-nomad-jobs hadoop
-#  - jobs: sleep 15 && cli/start-nomad-jobs sb
-#  - jobs: sleep 15 && cli/start-nomad-jobs nexus
-#  - jobs: sleep 15 && cli/start-nomad-jobs hc
-#  - jobs: sleep 15 && cli/start-nomad-jobs flb
+#  - jobs: sleep 15 && cli/start-nomad-jobs spark/spark
+#  - jobs: sleep 15 && cli/start-nomad-jobs spark/hadoop
+#  - jobs: sleep 15 && cli/start-nomad-jobs bin-repos/nexus
+  - jobs: sleep 15 && cli/start-nomad-jobs sb/payments/sb
+#  - jobs: sleep 15 && cli/start-nomad-jobs sb/sandbox
+#  - jobs: sleep 15 && cli/start-nomad-jobs sb/sbox
+#  - jobs: sleep 15 && cli/start-nomad-jobs poc/php
+#  - jobs: sleep 15 && cli/start-nomad-jobs poc/flb
+#  - jobs: sleep 15 && cli/start-nomad-jobs devOps/mss
 
 # x
-  - config-data: sleep 10 && python cli/load-consul-kv.py
+  - config-data: sleep 5 && python cli/load-consul-kv.py
 
 # x
   - nmd: sleep 0 && nomad agent -dev # -consul-address=172.17.0.2:8500
@@ -24,28 +27,27 @@ windows:
 
 #  - consul: consul agent -dev -dns-port 53
 
-  - consul: sleep 4 && cli/start-consuls
-
+#  - consul: sleep 4 && cli/start-consuls
   # legacy consul
-#  - con-server: docker run -d -e CONSUL_BIND_INTERFACE=eth0 --rm --name=consul-dev -enable-script-checks jalbert/consul:1.6.2
-#  - con-client: sleep 1 && consul-client-start
+  - con-server: docker run -d -e CONSUL_BIND_INTERFACE=eth0 --rm --name=consul-dev -enable-script-checks jalbert/consul:1.7.1
+  - con-client: sleep 3 && consul-client-start
 
   # x
-  - res: cd resources/ && sleep 13 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/webserver-start
+  - res: cd resources/ && sleep 6 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- ../cli/bin/webserver-start
 
-#  - mitmp: sleep 8 && envconsul -prefix mitmproxy-config- mitmproxy-start
-#  - hverf: sleep 8 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
-#  - gor: sleep 2 && envconsul -log-level="err" -prefix gor-config- gor-start
-#  - toxp: sleep 8 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
+#  - mitmp: sleep 12 && envconsul -prefix mitmproxy-config- mitmproxy-start
+#  - hverf: sleep 12 && envconsul -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
+#  - gor: sleep 12 && envconsul -log-level="err" -prefix gor-config- gor-start
+#  - toxp: sleep 12 && envconsul -prefix toxiproxy-config- toxiproxy-server-start
 
-#  - prom: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start
-#  - graf: sleep 8 && envconsul -consul-addr=172.17.0.2:8500 -prefix grafana-config- grafana-start
+#  - prom: sleep 12 && envconsul -consul-addr=172.17.0.2:8500 -prefix prometheus-config- prometheus-start
+#  - graf: sleep 12 && envconsul -consul-addr=172.17.0.2:8500 -prefix grafana-config- grafana-start
 
 #  - cadvisor: sleep 8 && cadvisor
 
-#  - node_ex: sleep 8 && envconsul -prefix node_exporter-config- node_exporter-start
-#  - alertmgr: sleep 8 && envconsul -prefix alertmanager-config- alertmanager-start
-#  - grk_ex: sleep 8 && envconsul -prefix grok_exporter-config- grok_exporter-start
+#  - node_ex: sleep 12 && envconsul -prefix node_exporter-config- node_exporter-start
+#  - alertmgr: sleep 12 && envconsul -prefix alertmanager-config- alertmanager-start
+#  - grk_ex: sleep 12 && envconsul -prefix grok_exporter-config- grok_exporter-start
 
   - monitor: sleep 6 && envconsul -log-level="err" -consul-addr=172.17.0.2:8500 -prefix nomad- python cli/servers/consul-monitor.py
 
