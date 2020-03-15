@@ -1,0 +1,79 @@
+job "dejavu" {
+
+  region = "global"
+
+  datacenters = [
+    "dc1"]
+
+  type = "service"
+
+  update {
+    stagger = "5s"
+    max_parallel = 1
+  }
+
+  group "server" {
+
+    task "task-dejavu" {
+      driver = "docker"
+
+      env {
+      }
+
+      constraint {
+        attribute = "${attr.kernel.name}"
+        value = "linux"
+      }
+
+      config {
+        image = "appbaseio/dejavu:v3.4.6"
+        hostname = "dejavu.service.dc1.consul"
+
+        port_map {
+          port_server = 1358
+        }
+
+        tty = true
+
+        dns_servers = [
+          "172.17.0.2"]
+
+        logging {
+          type = "json-file"
+        }
+
+        volumes = [
+          "{{ elasticsearch_config }}:/home/app/elasticsearch/config/",
+          "{{ elasticsearch_data }}:/home/app/elasticsearch/data/"
+        ]
+
+      }
+
+      service {
+        name = "dejavu"
+
+        port = "port_server"
+        address_mode = "driver"
+
+        tags = [
+        ]
+
+        check {
+          type = "tcp"
+          port = "port_server"
+          interval = "10s"
+          timeout = "2s"
+        }
+
+      }
+
+      resources {
+        network {
+          port "port_server" {
+          }
+        }
+      }
+
+    }
+  }
+}

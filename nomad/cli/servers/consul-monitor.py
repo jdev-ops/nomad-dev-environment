@@ -56,7 +56,6 @@ def deployment():
 
     # print(list(toposort_flatten(deps)))
     new_services = list(toposort_flatten(deps))
-    new_services = [(i.split("/")[0], i.split("/")[1]) for i in new_services]
 
     req = requests.get("http://127.0.0.1:8500/v1/agent/services")
     req = req.json()
@@ -67,13 +66,11 @@ def deployment():
 
     existing_services = set(existing_services)
 
-    new_services = [(prefix, service) for (prefix, service) in new_services if service not in existing_services]
-
-    # print(new_services)
+    new_services = [service for service in new_services if service.split('/')[-1] not in existing_services]
 
     # python cli/run-nomad-job.py "${filename}"
-    for (prefix, service) in new_services:
-        template_name = f"dev/{prefix}/{service}.nomad-job.template"
+    for service in new_services:
+        template_name = f"dev/{service}.nomad-job.template"
         template = env.get_template(template_name)
 
         params = os.environ
@@ -84,6 +81,7 @@ def deployment():
         msg = str.encode(str(res) + "\n")
 
         # print(f"SENDING: {msg}")
+        # open("msg.json", "w").write(str(res))
 
         out, err = proc.communicate(msg)
 
@@ -91,7 +89,7 @@ def deployment():
 
         update_ports()
 
-        wtime = waiting_dict.get(f"{prefix}/{service}", None)
+        wtime = waiting_dict.get(service, None)
         if wtime:
             time.sleep(wtime)
 

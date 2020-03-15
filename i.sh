@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sudo apt-get update
-sudo apt-get install -y zsh curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip python-pip zeal vlc vim python3-venv
+sudo apt-get install -y libheif-examples zsh curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip python-pip zeal vlc vim python3-venv
 
 # install tmux manually: version 3 is not in the repos
 

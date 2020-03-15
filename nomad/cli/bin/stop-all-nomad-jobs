@@ -65,15 +65,16 @@ declare -a services_ports=(
  4646 # nomad
  5000 # consul-monitor server
  8080 # cAdvisor
- 8006 # Python file server
+ 8006 # Python file server # » sudo lsof -wni "tcp:8006" # » sudo fuser 8006/tcp # » sudo netstat -ltnp | grep -w '8006' # » netstat -tulpen | rg 8006 # (no root!)
  8500 # consul
 )
 
 for i in "${!services_ports[@]}"; do
   echo "Killing " "$i"
-  lsof -wni "tcp:${services_ports[$i]}" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
+  sudo lsof -wni "tcp:${services_ports[$i]}" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
   # lsof -wni "tcp:4000"
-  # lsof -wni "tcp:8300"
+  # lsof -wni "tcp:8006"
+  # » sudo ss -l # lists data of the open sockets
 done
 
 docker stop consul-dev

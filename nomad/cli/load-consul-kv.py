@@ -7,7 +7,7 @@ app_dir = os.path.join(curr_dir, 'cli')
 
 sys.path.append(app_dir)
 
-from consul_keys import consul_keys
+from configs.consul_keys import consul_keys
 
 consul_ip = "172.17.0.2"
 # consul_ip = "localhost"

@@ -9,3 +9,6 @@ Flask-APScheduler==1.11.0
 dynaconf==2.2.0
 
 toposort==1.5
+
+# Vulture - Find dead code
+vulture==1.3

@@ -387,6 +387,10 @@ sudo shutdown -c
 # How to delete only directories and leave files untouched
 rm -rf */
 
+# only audio
+youtube-dl -F "https://www.youtube.com/watch?v=un_TSrR8COk"
+youtube-dl -f 251 "https://www.youtube.com/watch?v=un_TSrR8COk"
+
 youtube-dl -f 'bestvideo[height<=360]+bestaudio/best[height<=360]' "https://www.youtube.com/watch?v=SSNV0Di0ph0"
 
 ffmpeg -i 'a.mkv' -ss 00:31:40 -t 00:01:00 -async 1 cut.mp4
@@ -395,6 +399,12 @@ ffmpeg -i 'a.mkv' -ss 00:31:40 -t 00:01:00 -async 1 cut.mp4
 for i in *.mkv; do
     ffmpeg -i "$i" -codec copy "${i%.*}.mp4"
 done
+
+# heif-convert IMG_7752.heic IMG_cccc.jpg (converting heic to jpg)
+for i in *.heic; do
+    heif-convert "$i" "${i%.*}.jpg"
+done
+
 
 # encode audio to .mp3 and video to .mp4
 # » ffmpeg -i Aqui.no.hay.quien.viva.1x01.avi -codec:a mp3 -strict -2 a.mp4
@@ -474,6 +484,9 @@ ln -s /path/to/file /path/to/symlink
 
 ln -s /home/a/.config/tmuxinator/nomad.yml /home/a/src/devOps/nomad/nomad.yml
 
+ln -s /media/a/data/docs-files/Web/Testing/proxies/service-virtualization/wiremock/webhooks /home/a/Desktop/poc/wiremock/src/h
+ln -s /home/a/src/a/sb/dev/paygate /home/a/Desktop/poc/wiremock/src/g
+
 
 # MHz in use but also the Maximum you can push / overclock your CPU to:
 $ sudo dmidecode -t processor | grep Speed
@@ -489,3 +502,16 @@ $ sudo dmidecode --type 17
 » ssh-keygen -E md5 -lf ~/.ssh/id_rsa.pub
 4096 MD5:17:6b:a2:52:c4:31:5e:33:2b:4d:be:93:55:20:6b:48 jalbertcruz@gmail.com (RSA)
 
+# ripgrep ( rg )
+# https://github.com/BurntSushi/ripgrep/blob/3d59bd98aaea776092168f8feaf5daeeaf743cbf/GUIDE.md
+If we wanted, we could tell ripgrep to search anything but *.toml files:
+
+$ rg clap -g '!*.toml'
+
+» rg def -g "*.scala"
+
+# Elixir install
+» exenv install 1.10.2
+» exenv global 1.10.2
+mix new mastery_persistence --sup
+mix phx.new fsm_demo --no-html --no-webpack --no-ecto

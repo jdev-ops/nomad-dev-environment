@@ -1,4 +1,0 @@
-{
-  "hc/fabio": ["hc/service-a", "hc/service-b"],
-  "kd/krakend": ["hc/fabio"]
-}

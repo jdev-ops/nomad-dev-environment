@@ -1,0 +1,78 @@
+job "nexus" {
+
+  region = "global"
+
+  datacenters = [
+    "dc1"]
+
+  type = "service"
+
+  update {
+    stagger = "5s"
+    max_parallel = 1
+  }
+
+  group "server" {
+
+    task "task-nexus" {
+      driver = "docker"
+      artifact {
+        source = "{{ resources_register_host }}/sonatype__nexus3_3.17.0.tar"
+      }
+
+      constraint {
+        attribute = "${attr.kernel.name}"
+        value = "linux"
+      }
+
+      config {
+        load = "sonatype__nexus3_3.17.0.tar"
+        image = "sonatype/nexus3:3.17.0"
+        port_map {
+          port_server = 8081
+        }
+
+        hostname = "nexus.service.dc1.consul"
+
+        tty=true
+
+         logging {
+          type = "json-file"
+        }
+
+        volumes = [
+          "{{ nexus_data }}:/nexus-data"
+        ]
+
+      }
+
+      service {
+        name = "nexus"
+        port = "port_server"
+        address_mode = "driver"
+
+        tags = [
+          "urlprefix-nexus.com/"
+        ]
+
+        check {
+          type     = "tcp"
+          port     = "port_server"
+          interval = "10s"
+          timeout  = "2s"
+        }
+
+      }
+
+      resources {
+        memory = 1000
+        network {
+          mbits = 20
+          port "port_server" {
+          }
+        }
+      }
+
+    }
+  }
+}

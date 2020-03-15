@@ -1,4 +1,4 @@
-job "nexus" {
+job "fluentd" {
 
   region = "global"
 
@@ -14,10 +14,11 @@ job "nexus" {
 
   group "server" {
 
-    task "task-nexus" {
+    task "task-fluentd" {
       driver = "docker"
-      artifact {
-        source = "{{ resources_register_host }}/sonatype__nexus3_3.17.0.tar"
+
+      env {
+
       }
 
       constraint {
@@ -26,38 +27,50 @@ job "nexus" {
       }
 
       config {
-        load = "sonatype__nexus3_3.17.0.tar"
-        image = "sonatype/nexus3:3.17.0"
+
+        image = "jalbert/fluentd:td-agent_3.6.0"
+
         port_map {
-          port_server = 8081
+          port_server = 24224
         }
 
-        tty=true
+        tty = true
 
-         logging {
+        dns_servers = [
+          "172.17.0.2"]
+
+        /* logging {
+           type = "gelf"
+           config {
+             gelf-address = "udp://localhost:12201"
+           }
+         }*/
+
+        logging {
           type = "json-file"
         }
 
         volumes = [
-          "{{ nexus_data }}:/nexus-data"
+//          https://docs.fluentd.org/configuration/config-file
+          "{{ fluentd_etc }}:/etc/td-agent"
         ]
 
       }
 
       service {
-        name = "nexus"
+
         port = "port_server"
         address_mode = "driver"
+        name = "fluentd"
 
         tags = [
-          "urlprefix-nexus.com/"
         ]
 
         check {
-          type     = "tcp"
-          port     = "port_server"
+          type = "tcp"
+          port = "port_server"
           interval = "10s"
-          timeout  = "2s"
+          timeout = "2s"
         }
 
       }
