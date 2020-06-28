@@ -34,6 +34,7 @@ npm set registry http://npm.service.dc1.consul:4873/
 
 nslookup -port=8600 wiremock.service.dc1.consul
 
+nslookup -port=8600 postgres-sb.service.dc1.consul 172.16.10.65
 
 http://wiremock.service.dc1.consul/__admin/
 

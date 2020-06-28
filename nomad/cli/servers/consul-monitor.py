@@ -1,13 +1,11 @@
-from typing import Dict, Any, Set
-
 from flask import Flask, request
 
 app = Flask(__name__)
 import requests
 import time
 
-from toposort import toposort, toposort_flatten
-import json
+from toposort import toposort_flatten
+
 
 from jinja2 import Environment, FileSystemLoader
 
@@ -15,8 +13,7 @@ import sys
 import os
 import subprocess
 
-searchpath = os.getenv("nomad_working_dir")
-# searchpath = "/home/a/src/devOps/nomad/"
+searchpath = os.getenv("NOMAD_WORKING_DIR", os.path.join(os.path.abspath(os.path.dirname(__file__)), "../.."))
 
 env = Environment(
     loader=FileSystemLoader(searchpath=searchpath),
@@ -24,7 +21,13 @@ env = Environment(
 )
 
 global_consul_ip = "172.17.0.2"
+global_consul_ip = "172.16.10.65"
+# global_consul_ip = "localhost"
 consul_address = "localhost"
+consul_address = "172.17.0.2"
+consul_address = "172.16.10.65"
+
+nomad_address = "172.16.10.65"
 
 
 # curl -G http://localhost:8500/v1/agent/services --data-urlencode 'filter=Service == wiremock'
@@ -57,7 +60,7 @@ def deployment():
     # print(list(toposort_flatten(deps)))
     new_services = list(toposort_flatten(deps))
 
-    req = requests.get("http://127.0.0.1:8500/v1/agent/services")
+    req = requests.get(f"http://{consul_address}:8500/v1/agent/services")
     req = req.json()
     existing_services = []
     for k, v in req.items():
@@ -77,7 +80,8 @@ def deployment():
         res = template.render(
             **params
         )
-        proc = subprocess.Popen(["nomad", "job", "run", "-"], stdin=subprocess.PIPE)
+        # proc = subprocess.Popen(["nomad", "job", "run", "-"], stdin=subprocess.PIPE)
+        proc = subprocess.Popen(["nomad", "job", "run", "-address", f"http://{nomad_address}:4646", "-"], stdin=subprocess.PIPE)
         msg = str.encode(str(res) + "\n")
 
         # print(f"SENDING: {msg}")
@@ -97,4 +101,5 @@ def deployment():
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(port=5005, debug=False, host="0.0.0.0")
+    # app.run(port=5000, debug=True, host="0.0.0.0")

@@ -4,7 +4,7 @@
       "type": "services",
       "handler_type": "http",
       "http_handler_config": {
-        "path": "http://localhost:5000/services",
+        "path": "http://localhost:5005/services",
         "method": "POST",
         "header": {
           "x-foo": [

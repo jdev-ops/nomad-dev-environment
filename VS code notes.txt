@@ -1,0 +1,9 @@
+
+https://stackoverflow.com/questions/38952053/how-to-run-the-select-code-in-vscode
+https://code.visualstudio.com/docs/editor/integrated-terminal#_key-bindings
+
+File + Preferences + Keyboard Shortcuts
+
+workbench.action.terminal.runSelectedText
+Shift + Alt + R
+

@@ -40,6 +40,9 @@ or this which checks out all files from the index, overwriting working tree file
 
 git checkout-index -a -f
 
+# to restore my deleted working working directory:
+
+git checkout .
 
 .. Extras
 
@@ -75,12 +78,12 @@ git fetch
 git checkout origin/your_branch
 
 
-Tags
-
-Use git tag command to add a new one:
-git tag -a v1.4
-
- -m 'version 1.4'
+# Tags
+# https://www.drupixels.com/blog/git-tags-guide-create-delete-push-tags-remote-and-much-more
+# Use git tag command to add a new one:
+git tag -a v1.4 -m 'version 1.4'
+git tag -a v0.0.1 -m 'version v0.0.1'
+» git push origin --tags
 
 Tagging Later
 git tag -a v1.2 9fceb02

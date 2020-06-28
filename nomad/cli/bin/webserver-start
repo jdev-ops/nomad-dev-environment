@@ -2,6 +2,7 @@
 
 python -m http.server "${DOCKER_IMAGES_SERVER_PORT}" &
 
-echo $! | http put http://172.17.0.2:8500/v1/kv/pid-data-WEBSERVER_PID
+#echo $! | http put http://172.17.0.2:8500/v1/kv/pid-data-WEBSERVER_PID
+echo $! | http put http://172.16.10.65:8500/v1/kv/pid-data-WEBSERVER_PID
 
 #consul kv put pid-data-WEBSERVER_PID $!

@@ -56,6 +56,9 @@ find . -iname "*" -type f -print0 | xargs -0 grep -Hn "controller"
 find . -iname "target" -type d -print0 | xargs -0 du -sh
 # Recursively Search All directories For A String and delete it
 find . -iname "target" -type d -print0 | xargs -0 rm -Rf
+» find . -iname ".terraform" -type d -print0 | xargs -0 rm -Rf
+» find . -iname ".terragrunt-cache" -type d -print0 | xargs -0 rm -Rf
+
 
 # kill all process by name!
 ps aux | grep nautilus | grep -v grep | awk '{print $2}' | xargs kill
@@ -511,7 +514,30 @@ $ rg clap -g '!*.toml'
 » rg def -g "*.scala"
 
 # Elixir install
-» exenv install 1.10.2
-» exenv global 1.10.2
+» exenv install 1.10.3
+» exenv global 1.10.3
 mix new mastery_persistence --sup
 mix phx.new fsm_demo --no-html --no-webpack --no-ecto
+
+# Erlang install
+» kerl update releases
+» kerl build 23.0.1 23.0.1
+» kerl install 23.0.1 ~/kerl/23.0.1
+
+# How to generate a random string?
+# https://unix.stackexchange.com/questions/230673/how-to-generate-a-random-string
+» head /dev/urandom | tr -dc A-Za-z0-9 | head -c 30 ; echo ''
+
+# for tools like: mysqldump
+sudo apt-get install mysql-client
+
+# postgresql
+# create a database
+create database terraform_backend
+	with owner safeboda_user;
+
+# ncdu (better du / folders size in the current pwd)
+
+# tldr (better man)
+
+# fd (better find)

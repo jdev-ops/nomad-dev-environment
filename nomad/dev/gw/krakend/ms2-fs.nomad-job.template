@@ -1,4 +1,4 @@
-job "dev-env" {
+job "ms2-fs" {
 
   region = "global"
 
@@ -9,35 +9,26 @@ job "dev-env" {
 
   group "server" {
 
-    task "dev-env" {
+    task "ms2-fs" {
 
       driver = "docker"
 
-//      env {
-//        GET_IDS_USING_CONSUL = "yes"
-//      }
-
       config {
 
-        image = "jalbert/elixir-machine-service:1102-ubuntu18"
-//        image = "jalbert/elixir-machine-service:110-centos7"
+        image = "jalbert/ms2-fs:0.1"
 
         port_map {
-          port_server = 22
-          port_app = 56299
-          port_ex = 80
+          port_server = 4000
         }
 
-        hostname = "dev-env.service.dc1.consul"
+        hostname = "ms2-fs.service.dc1.consul"
 
         logging {
           type = "json-file"
         }
 
         volumes = [
-          "{{ dev_env_directory_e }}:/home/app/src/e",
-          "{{ dev_env_directory_h }}:/home/app/src/h",
-          "{{ dev_env_direnv_alloweds }}:/home/app/.local/share/direnv/allow"
+          "{{ files_service_app_data }}:/app_data"
         ]
 
         tty = true
@@ -45,19 +36,17 @@ job "dev-env" {
         dns_servers = [
           "172.17.0.2"]
 
-        //        cpu_hard_limit = true
-
       }
 
       service {
-        name = "dev-env"
+        name = "ms2-fs"
 
         port = "port_server"
         //        address_mode = "host" // default
         address_mode = "driver"
 
         tags = [
-          "urlprefix-/dev-env strip=/dev-env"
+          "urlprefix-/ms2-fs strip=/ms2-fs"
         ]
 
         check {
@@ -72,8 +61,6 @@ job "dev-env" {
         network {
           mbits = 60
           port "port_server" {}
-          port "port_app" {}
-          port "port_ex" {}
         }
       }
 

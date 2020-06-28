@@ -15,15 +15,20 @@ consul_keys = {
         'USER_ID': f"{USER_ID}",
         'GROUP_ID': f"{GROUP_ID}",
         'GET_IDS_USING_CONSUL': "yes",
-        'resources_register_host': f'http://localhost:{DOCKER_IMAGES_SERVER_PORT}',
+        'resources_register_host': f'http://0.0.0.0:{DOCKER_IMAGES_SERVER_PORT}',
         'postgres_pgdata': '/home/a/dockers-data/sb-postgres',
-        'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/files_service/priv/files',
+        'mysql_orion_data': '/home/a/dockers-data/mysql-orion-mktplace',
+        # 'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/files_service/priv/files',
+        'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/fs/priv/static',
         # 'krakend_config_data': '/home/a/src/a/sb/POCs/gateways-poc/devOps/krakend',
         # 'krakend_config_data': '/home/a/src/POCs/krakend',
 
-        'krakend_config_data': '/home/a/Desktop/poc/wiremock/krakend',
-        'files_and_mappings_root_wiremock': '/home/a/Desktop/poc/wiremock/working-dir',
-        'files_and_mappings_root_wiremock_webhook': '/home/a/Desktop/poc/wiremock/working-dir-webhook',
+        # 'krakend_config_data': '/home/a/Desktop/poc/wiremock/krakend',
+
+        'krakend_config_data': '/home/a/src/a/sb/POCs/gateways-poc/krakend',
+
+        'files_and_mappings_root_wiremock': '/home/a/src/a/POCs/wiremock/working-dir',
+        'files_and_mappings_root_wiremock_webhook': '/home/a/src/a/POCs/wiremock/working-dir-webhook',
 
         'dev_env_directory_e': '/home/a/src/a/sb/dev/paygate',
         'dev_env_directory_h': '/media/a/data/docs-files/Web/Testing/proxies/service-virtualization/wiremock/webhooks',

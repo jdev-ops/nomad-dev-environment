@@ -28,10 +28,7 @@ job "elasticsearch" {
       }
 
       config {
-
-        //        image = "elasticsearch:7.6.1"
-        //        image = "docker.elastic.co/elasticsearch/elasticsearch:7.6.1"
-        image = "jalbert/elasticsearch:7.6.1"
+        image = "jalbert/elasticsearch:7.6.2"
         hostname = "elasticsearch.service.dc1.consul"
 
         port_map {

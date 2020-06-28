@@ -10,6 +10,7 @@ sys.path.append(app_dir)
 from configs import consul_keys
 
 consul_ip = "172.17.0.2"
+consul_ip = "172.16.10.65"
 # consul_ip = "localhost"
 
 # nomad_keys = json.loads(open("./cli/consul-variables.json").read())
