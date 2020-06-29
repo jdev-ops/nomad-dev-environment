@@ -121,3 +121,5 @@ nslookup spark-master.service.dc1.consul 172.17.0.2
 ping postgres-sb.service.dc1.consul
 
 ping nexus.service.dc1.consul
+
+nslookup postgres-sb.service.dc1.consul 172.17.0.2

@@ -96,8 +96,9 @@ done
 kill -9 $(http "http://${consul_ip}:8500/v1/kv/pid-data-CONSUL_CLIENT_PID?raw=true") || true
 
 docker stop consul-dev
+docker stop consul-client2
 sudo lsof -wni "tcp:8500" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
 
 # 8500 # consul
-# 8600 # consul
+# 8600 # consul (the client is on 53)
 # 8300 # consul

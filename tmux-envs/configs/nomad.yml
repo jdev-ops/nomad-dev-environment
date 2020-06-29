@@ -10,19 +10,21 @@ windows:
 
 # sudo ip link add name mylo type dummy && sudo ip address add 172.16.10.65/26 dev mylo
   - con-client: consul-client-start
+  - con-client2: sleep 1 && consul-client2-start
   - con-server: sleep 3 && consul-server-start
-  #  - config-data: sleep 5 && python cli/load-consul-kv.py
+#  - config-data: sleep 5 && python cli/load-consul-kv.py
 
   - nmd: sleep 0 && nomad agent -config cli/configs/nomad-client-server.hcl
 
-  - res: cd resources/ && sleep 6 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix nomad- ../cli/bin/webserver-start
-  - monitor: sleep 6 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix nomad- python cli/servers/consul-monitor.py
+  - res: cd resources/ && sleep 10 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix nomad- ../cli/bin/webserver-start
+  - monitor: sleep 10 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix nomad- python cli/servers/consul-monitor.py
 
 #  - jobs: sleep 15 && cli/start-nomad-jobs spark/spark
 #  - jobs: sleep 15 && cli/start-nomad-jobs spark/hadoop
 #  - jobs: sleep 15 && cli/start-nomad-jobs bin-repos/nexus
 #  - jobs: sleep 15 && cli/start-nomad-jobs bin-repos/npm
   - jobs: sleep 30 && cli/start-nomad-jobs sb/payments/db
+#  - jobs: sleep 30 && cli/start-nomad-jobs devOps/dev
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/logs
 #  - jobs: sleep 15 && cli/start-nomad-jobs orion/mktplace
 #  - jobs: sleep 15 && cli/start-nomad-jobs sb/sandbox

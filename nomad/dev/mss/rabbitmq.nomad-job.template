@@ -1,4 +1,4 @@
-job "rabbitmq-sb" {
+job "rabbitmq" {
 
   region = "global"
 

@@ -1,0 +1,83 @@
+job "postgres" {
+
+  region = "global"
+
+  datacenters = [
+    "dc1"]
+
+  type = "service"
+
+  update {
+    stagger = "5s"
+    max_parallel = 1
+  }
+
+  group "server" {
+
+    task "task-postgresql" {
+      driver = "docker"
+
+      env {
+        POSTGRES_USER = "postgres"
+        POSTGRES_PASSWORD = "11qazxsw22"
+      }
+
+      constraint {
+        attribute = "${attr.kernel.name}"
+        value = "linux"
+      }
+
+      config {
+
+        image = "postgres:12.4"
+
+        port_map {
+          port_server = 5432
+        }
+
+        force_pull = false
+
+        tty = true
+
+         logging {
+          type = "json-file"
+        }
+
+        volumes = [
+          # Use absolute paths to mount arbitrary paths on the host
+          "{{ postgres_pgdata }}:/var/lib/postgresql/data/"
+
+        ]
+
+      }
+
+      service {
+        name = "postgres"
+        port = "port_server"
+        address_mode = "driver"
+
+        tags = [
+          "urlprefix-postgres.com/"
+        ]
+
+        check {
+          type     = "tcp"
+          port     = "port_server"
+          interval = "10s"
+          timeout  = "2s"
+        }
+
+      }
+
+      resources {
+        memory = 1000
+        network {
+          mbits = 20
+          port "port_server" {
+          }
+        }
+      }
+
+    }
+  }
+}

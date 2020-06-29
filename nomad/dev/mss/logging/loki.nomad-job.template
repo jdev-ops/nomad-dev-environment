@@ -1,0 +1,89 @@
+job "loki" {
+
+// https://akoutmos.com/post/elixir-logging-loki/
+
+  region = "global"
+
+  datacenters = [
+    "dc1"]
+
+  type = "service"
+
+  update {
+    stagger = "5s"
+    max_parallel = 1
+  }
+
+  group "server" {
+
+    task "task-loki" {
+      driver = "docker"
+
+      env {
+
+      }
+
+      constraint {
+        attribute = "${attr.kernel.name}"
+        value = "linux"
+      }
+
+      config {
+
+        image = "grafana/loki:2.0.0-amd64"
+
+        args = [
+          "-config.file=/etc/loki/loki-config.yml",
+        ]
+
+        port_map {
+          port_server = 3100
+        }
+
+        tty = true
+
+        dns_servers = [
+          "172.17.0.2"]
+
+        logging {
+          type = "json-file"
+        }
+
+        volumes = [
+          "{{ loki_config }}:/etc/loki/loki-config.yml",
+          "{{ loki_data_index }}:/loki-index",
+          "{{ loki_data_chunks }}:/loki-chunks"
+        ]
+
+      }
+
+      service {
+
+        port = "port_server"
+        address_mode = "driver"
+        name = "loki"
+
+        tags = [
+        ]
+
+        check {
+          type = "tcp"
+          port = "port_server"
+          interval = "10s"
+          timeout = "2s"
+        }
+
+      }
+
+      resources {
+        memory = 1000
+        network {
+          mbits = 40
+          port "port_server" {
+          }
+        }
+      }
+
+    }
+  }
+}
