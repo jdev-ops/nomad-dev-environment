@@ -16,8 +16,15 @@ consul_keys = {
         'GROUP_ID': f"{GROUP_ID}",
         'GET_IDS_USING_CONSUL': "yes",
         'resources_register_host': f'http://0.0.0.0:{DOCKER_IMAGES_SERVER_PORT}',
-        'postgres_pgdata': '/home/a/dockers-data/sb-postgres',
+        'postgres_pgdata': '/home/a/dockers-data/postgres',
+
+        'loki_data_index': '/home/a/dockers-data/loki/loki-index',
+        'loki_data_chunks': '/home/a/dockers-data/loki/loki-chunks',
+        'loki_config': '/home/a/src/devOps/nomad/cli/configs/loki/loki-config.yml',
+
         'mysql_orion_data': '/home/a/dockers-data/mysql-orion-mktplace',
+        'mysql_data': '/home/a/dockers-data/mysql',
+        'redis_data': '/home/a/dockers-data/redis',
         # 'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/files_service/priv/files',
         'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/fs/priv/static',
         # 'krakend_config_data': '/home/a/src/a/sb/POCs/gateways-poc/devOps/krakend',
@@ -44,7 +51,7 @@ consul_keys = {
 
         'rabbitmq_enabled_plugins': '/home/a/dockers-data/sb-rabbitmq_plugins/sb-enabled_plugins',
         'rabbitmq_data': '/home/a/dockers-data/sb-rabbitmq',
-        'nexus_data': '/home/a/dockers-data/nexus-data',
+        'nexus_data': '/home/a/dockers-data/nexus-data2',
 
         'spark_apps': '/home/a/Downloads/course/spark_apps',
 
@@ -91,6 +98,17 @@ consul_keys = {
     },
     'grok_exporter-config-': {
         'GROK_EXPORTER_HOME': '/home/a/appslnx/monitoring/grok_exporter-0.x/',
+    },
+    'ms_demos-config-': {
+        'MSPROD_DATABASE_USER': 'safeboda_user',
+        'MSPROD_DATABASE_PASS': '8GShwQeSMVULP0z1NcE+19QfYcYWKi',
+        'MSPROD_DATABASE_NAME': 'janus_dev',
+        'MSPROD_DATABASE_HOST': 'postgres.service.dc1.consul',
+    },
+    'devops_demos-config-': {
+        'POSTGRES_DATABASE_HOST': 'postgres.service.dc1.consul',
+        'POSTGRES_DATABASE_USER': 'postgres',
+        'POSTGRES_DATABASE_PASS': '11qazxsw22',
     },
 
 }

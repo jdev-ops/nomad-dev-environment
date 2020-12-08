@@ -7,3 +7,9 @@ File + Preferences + Keyboard Shortcuts
 workbench.action.terminal.runSelectedText
 Shift + Alt + R
 
+» git clone -c 'remote.origin.fetch=+refs/changes/*:refs/remotes/origin/changes/*' https://gerrit.googlesource.com/git-repo
+
+'+refs/heads/*:refs/remotes/origin/*'
+'+refs/heads/master:refs/remotes/origin/master'
+
+

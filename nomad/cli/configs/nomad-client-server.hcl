@@ -12,7 +12,7 @@ advertise {
 }
 
 # Setup data dir
-data_dir = "/tmp/serverx1"
+data_dir = "/tmp/serverx3"
 
 # Give the agent a unique name. Defaults to hostname
 name = "server1"
@@ -25,6 +25,9 @@ client {
   # this should be like "nomad.service.consul:4647" and a system
   # like Consul used for service discovery.
   servers = ["172.16.10.65:4647"]
+  options = {
+    docker.volumes.enabled = true
+  }
 }
 
 # Enable the server
@@ -51,6 +54,15 @@ consul {
   server_auto_join = true
   client_auto_join = true
 }
+
+
+
+//docker {
+// volumes
+// {
+//  enabled=true
+// }
+//}
 
 # export NOMAD_ADDR=172.16.10.65
 # sudo nomad agent -config server.hcl

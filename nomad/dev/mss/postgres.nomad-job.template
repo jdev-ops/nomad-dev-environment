@@ -30,6 +30,10 @@ job "postgres" {
       config {
 
         image = "postgres:12.4"
+        args = [
+          "-c",
+          "config_file=/etc/postgresql/postgresql.conf",
+        ]
 
         port_map {
           port_server = 5432
@@ -44,8 +48,11 @@ job "postgres" {
         }
 
         volumes = [
+
           # Use absolute paths to mount arbitrary paths on the host
-          "{{ postgres_pgdata }}:/var/lib/postgresql/data/"
+          "{{ postgres_pgdata }}:/var/lib/postgresql/data/",
+
+          "/home/a/src/devOps/nomad/cli/configs/postgres/postgresql.conf:/etc/postgresql/postgresql.conf"
 
         ]
 

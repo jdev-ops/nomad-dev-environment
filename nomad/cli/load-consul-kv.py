@@ -19,4 +19,4 @@ for prefix, variables in consul_keys.items():
     for key, value in variables.items():
         response = requests.put(f"http://{consul_ip}:8500/v1/kv/{prefix}{key}",
                                 data=str.encode(value))
-        # print(response.text)
+        print(response.text)

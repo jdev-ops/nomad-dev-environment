@@ -80,7 +80,7 @@ for i in "${!services_ports[@]}"; do
   echo "Killing " "$i"
   sudo lsof -wni "tcp:${services_ports[$i]}" | awk '{if (NR>1) print}'| awk '{print $2}' | xargs -L 1 kill -9 || true
   # lsof -wni "tcp:4000"
-  # lsof -wni "tcp:8006"
+  # apap
   # » sudo ss -l # lists data of the open sockets
 done
 

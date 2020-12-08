@@ -14,20 +14,17 @@ job "rabbitmq" {
 
   group "server" {
 
-    task "task-rabbitmq-sb" {
+    task "task-rabbitmq" {
 
       driver = "docker"
 
       env {
-        RABBITMQ_ERLANG_COOKIE = "denarius"
+        RABBITMQ_ERLANG_COOKIE = "RABBITMQ_ERLANG_COOKIE"
         RABBITMQ_DEFAULT_VHOST = "/"
         RABBITMQ_DEFAULT_USER = "rabbitmq"
         RABBITMQ_DEFAULT_PASS = "rabbitmq"
       }
 
-      artifact {
-        source = "{{ resources_register_host }}/rabbitmq__3.7.14-management.tar"
-      }
 
       constraint {
         attribute = "${attr.kernel.name}"
@@ -38,8 +35,7 @@ job "rabbitmq" {
 
         hostname = "rabbitmq"
 
-        load = "rabbitmq__3.7.14-management.tar"
-        image = "rabbitmq:3.7.14-management"
+        image = "rabbitmq:3.8.2-management"
         port_map {
           port1 = 5672
           port2 = 15672
@@ -67,12 +63,12 @@ job "rabbitmq" {
 
       service {
 
-        name = "rabbitmq-sb"
+        name = "rabbitmq"
         port = "port1"
         address_mode = "driver"
 
         tags = [
-          "urlprefix-rabbitmq-sb.com/",
+          "urlprefix-rabbitmq.com/",
           "dev"
         ]
 
@@ -86,9 +82,12 @@ job "rabbitmq" {
       }
 
       resources {
-        memory = 1000
+
+        memory = 16000
+        cpu = 8000
+
         network {
-          mbits = 20
+          mbits = 200
           port "port1" {
           }
           port "port2" {

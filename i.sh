@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
 sudo apt-get update
-sudo apt-get install -y basez dnsmasq libheif-examples zsh curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip python-pip zeal vlc vim python3-venv
+sudo apt-get install -y meld tree basez libheif-examples zsh curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip zeal vlc vim python3-venv tumx
+# OJO: not in use dnsmasq (I am using systemd-resolved)
+
+# compile Erlang:
+# https://riptutorial.com/erlang/example/2791/build-and-install-erlang-otp-on-ubuntu
+sudo apt-get install autoconf libncurses5-dev build-essential
+sudo apt-get install libwxgtk3.0-gtk3-dev libglu-dev
+# Note, selecting 'libglu1-mesa-dev' instead of 'libglu-dev'
 
 # install tmux manually: version 3 is not in the repos
 

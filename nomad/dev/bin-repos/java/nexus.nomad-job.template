@@ -1,5 +1,7 @@
 job "nexus" {
 
+// docker run -d -p 8081:8081 --name nexus -v /home/a/dockers-data/nexus-data2/:/nexus-data sonatype/nexus3:3.27.0
+
   region = "global"
 
   datacenters = [
@@ -16,9 +18,9 @@ job "nexus" {
 
     task "task-nexus" {
       driver = "docker"
-      artifact {
-        source = "{{ resources_register_host }}/sonatype__nexus3_3.17.0.tar"
-      }
+//      artifact {
+//        source = "{{ resources_register_host }}/sonatype__nexus3_3.17.0.tar"
+//      }
 
       constraint {
         attribute = "${attr.kernel.name}"
@@ -26,8 +28,8 @@ job "nexus" {
       }
 
       config {
-        load = "sonatype__nexus3_3.17.0.tar"
-        image = "sonatype/nexus3:3.17.0"
+//        load = "sonatype__nexus3_3.17.0.tar"
+        image = "sonatype/nexus3:3.27.0"
         port_map {
           port_server = 8081
         }
@@ -65,9 +67,9 @@ job "nexus" {
       }
 
       resources {
-        memory = 1000
+        memory = 6000
         network {
-          mbits = 20
+          mbits = 200
           port "port_server" {
           }
         }

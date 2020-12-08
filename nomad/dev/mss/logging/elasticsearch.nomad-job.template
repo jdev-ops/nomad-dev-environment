@@ -28,12 +28,13 @@ job "elasticsearch" {
       }
 
       config {
-        image = "jalbert/elasticsearch:7.6.2"
+        image = "jalbert/elasticsearch:7.9.2"
         hostname = "elasticsearch.service.dc1.consul"
 
         port_map {
           port_server = 9200
           port2 = 9300
+          port3 = 22
         }
 
         tty = true
@@ -41,9 +42,9 @@ job "elasticsearch" {
         dns_servers = [
           "172.17.0.2"]
 
-        logging {
-          type = "json-file"
-        }
+//        logging {
+//          type = "json-file"
+//        }
 
         volumes = [
           "{{ elasticsearch_config }}:/home/app/elasticsearch/config/",
@@ -71,6 +72,9 @@ job "elasticsearch" {
       }
 
       resources {
+        cpu    = 10000
+        memory = 50000
+
         network {
           port "port_server" {
           }

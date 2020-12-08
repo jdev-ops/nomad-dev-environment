@@ -22,9 +22,10 @@ job "postgres-sb" {
         POSTGRES_PASSWORD = "11qazxsw22"
       }
 
-      artifact {
-        source = "{{ resources_register_host }}/jalbert__postgres_10.7.tar"
-      }
+//       when served locally:
+//      artifact {
+//        source = "{{ resources_register_host }}/jalbert__postgres_10.7.tar"
+//      }
 
       constraint {
         attribute = "${attr.kernel.name}"
@@ -32,13 +33,17 @@ job "postgres-sb" {
       }
 
       config {
-        load = "jalbert__postgres_10.7.tar"
+
+//         when served locally:
+//        load = "jalbert__postgres_10.7.tar"
         image = "jalbert/postgres:10.7"
         port_map {
           port_server = 5432
         }
 
-        tty=true
+        force_pull = false
+
+        tty = true
 
        /* logging {
           type = "gelf"

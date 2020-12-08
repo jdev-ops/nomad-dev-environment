@@ -84,6 +84,8 @@ def deployment():
         proc = subprocess.Popen(["nomad", "job", "run", "-address", f"http://{nomad_address}:4646", "-"], stdin=subprocess.PIPE)
         msg = str.encode(str(res) + "\n")
 
+        # nomad job run -address http://172.16.10.65:4646 /home/a/src/devOps/nomad/dev/mss/redis.nomad-job.template
+
         # print(f"SENDING: {msg}")
         # open("msg.json", "w").write(str(res))
 
