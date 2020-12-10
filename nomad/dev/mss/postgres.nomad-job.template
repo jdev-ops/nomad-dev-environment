@@ -14,6 +14,12 @@ job "postgres" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 5432
+      }
+    }
+
     task "task-postgresql" {
       driver = "docker"
 
@@ -35,9 +41,8 @@ job "postgres" {
           "config_file=/etc/postgresql/postgresql.conf",
         ]
 
-        port_map {
-          port_server = 5432
-        }
+        ports = [
+          "port_server"]
 
         force_pull = false
 
@@ -78,11 +83,6 @@ job "postgres" {
 
       resources {
         memory = 1000
-        network {
-          mbits = 20
-          port "port_server" {
-          }
-        }
       }
 
     }

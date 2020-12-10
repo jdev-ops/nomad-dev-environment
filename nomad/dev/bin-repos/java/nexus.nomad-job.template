@@ -16,6 +16,12 @@ job "nexus" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 8081
+      }
+    }
+
     task "task-nexus" {
       driver = "docker"
 //      artifact {
@@ -30,9 +36,10 @@ job "nexus" {
       config {
 //        load = "sonatype__nexus3_3.17.0.tar"
         image = "sonatype/nexus3:3.27.0"
-        port_map {
-          port_server = 8081
-        }
+//        image = "sonatype/nexus3:3.29.0"
+
+        ports = [
+          "port_server"]
 
         hostname = "nexus.service.dc1.consul"
 
@@ -68,11 +75,6 @@ job "nexus" {
 
       resources {
         memory = 6000
-        network {
-          mbits = 200
-          port "port_server" {
-          }
-        }
       }
 
     }

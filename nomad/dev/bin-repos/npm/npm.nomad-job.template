@@ -25,6 +25,12 @@ job "npm" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 4873
+      }
+    }
+
     task "task-npm" {
       driver = "docker"
       artifact {
@@ -37,11 +43,14 @@ job "npm" {
       }
 
       config {
-        load = "verdaccio__verdaccio_4.1.x.tar"
-        image = "verdaccio/verdaccio:4.1.x"
-        port_map {
-          port_server = 4873
-        }
+        image = "verdaccio/verdaccio:4.10.0"
+//        load = "verdaccio__verdaccio_4.1.x.tar"
+//        image = "verdaccio/verdaccio:4.1.x"
+
+        hostname = "npm.service.dc1.consul"
+
+        ports = [
+          "port_server"]
 
         tty = true
 
@@ -76,11 +85,6 @@ job "npm" {
 
       resources {
         memory = 1000
-        network {
-          mbits = 20
-          port "port_server" {
-          }
-        }
       }
 
     }

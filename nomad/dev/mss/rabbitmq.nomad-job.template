@@ -14,6 +14,16 @@ job "rabbitmq" {
 
   group "server" {
 
+    network {
+
+      port "port1" {
+        to = 5672
+      }
+      port "port2" {
+        to = 15672
+      }
+    }
+
     task "task-rabbitmq" {
 
       driver = "docker"
@@ -33,13 +43,13 @@ job "rabbitmq" {
 
       config {
 
-        hostname = "rabbitmq"
-
         image = "rabbitmq:3.8.2-management"
-        port_map {
-          port1 = 5672
-          port2 = 15672
-        }
+        hostname = "rabbitmq.service.dc1.consul"
+
+        ports = [
+          "port1",
+          "port2"
+        ]
 
         tty = true
 
@@ -86,13 +96,6 @@ job "rabbitmq" {
         memory = 16000
         cpu = 8000
 
-        network {
-          mbits = 200
-          port "port1" {
-          }
-          port "port2" {
-          }
-        }
       }
 
     }

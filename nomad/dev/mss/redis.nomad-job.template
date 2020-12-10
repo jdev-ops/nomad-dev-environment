@@ -14,6 +14,12 @@ job "redis" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 6379
+      }
+    }
+
     task "task-redis" {
       driver = "docker"
 
@@ -22,15 +28,13 @@ job "redis" {
         image = "redis:6.0.9"
         hostname = "redis.service.dc1.consul"
 
+        ports = [
+          "port_server"]
+
         command = "redis-server"
         args = [
           "--appendonly yes"
         ]
-
-
-        port_map {
-          port_server = 6379
-        }
 
         tty = true
 
@@ -56,14 +60,10 @@ job "redis" {
 
       resources {
         memory = 1000
-        network {
-          mbits = 20
-          port "port_server" {
-          }
-        }
       }
 
     }
+
   }
 }
 
