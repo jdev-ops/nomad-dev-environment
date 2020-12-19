@@ -25,6 +25,7 @@ consul_keys = {
         'mysql_orion_data': '/home/a/dockers-data/mysql-orion-mktplace',
         'mysql_data': '/home/a/dockers-data/mysql',
         'redis_data': '/home/a/dockers-data/redis',
+        'sonarqube_data': '/home/a/dockers-data/sonarqube',
         # 'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/files_service/priv/files',
         'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/fs/priv/static',
         # 'krakend_config_data': '/home/a/src/a/sb/POCs/gateways-poc/devOps/krakend',

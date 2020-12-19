@@ -544,8 +544,8 @@ Docs fetched: /media/a/data/repo/.hex/docs/hexpm/ecto/3.5.3
 
 # Erlang install
 » kerl update releases
-» kerl build 23.1.1 23.1.1
-» kerl install 23.1.1 ~/kerl/23.1.1
+» kerl build 23.2 23.2
+» kerl install 23.2 ~/kerl/23.2
 
 # Python install
 -- https://github.com/pyenv/pyenv
@@ -713,3 +713,16 @@ $ tree -aF --dirsfirst -L 1 .
 # obtener una lista a partir de los nombres de los ficheros:
 # eliminar extension (.betdata), poner ',"' al final de cada linea y poner '"' al inicio de cada linea
 » ls | cut -f6- | sort | uniq | sed s:.betdata:\",: | sed 's/^/\"/'
+
+# internet traffic
+» sudo apt-get install vnstat
+» vnstat --iflist
+Available interfaces: br-c6d290106d08 wlp2s0 enp3s0f1 docker0
+
+» sudo systemctl start vnstat.service
+» sudo systemctl enable vnstat.service
+
+» sudo vnstat -i wlp2s0
+» vnstat -h
+
+ wlp2s0  /  hourly

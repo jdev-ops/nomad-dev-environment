@@ -22,6 +22,8 @@ windows:
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/postgres
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/mysql
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/redis
+#  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube
+  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube-custom
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/rabbitmq
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/logs
 

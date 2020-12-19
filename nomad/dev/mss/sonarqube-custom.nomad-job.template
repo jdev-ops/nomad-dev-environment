@@ -1,4 +1,4 @@
-job "redis" {
+job "sonarqube-custom" {
 
   region = "global"
 
@@ -16,36 +16,33 @@ job "redis" {
 
     network {
       port "port_server" {
-        to = 6379
+        to = 9000
       }
     }
 
-    task "task-redis" {
+    task "task-sonarqube-custom" {
       driver = "docker"
 
       config {
 
-        image = "redis:6.0.9"
-        hostname = "redis.service.dc1.consul"
+        image = "jalbert/sonarqube:8.6-custom"
+        hostname = "sonarqube-custom.service.dc1.consul"
 
         ports = [
           "port_server"]
 
-        command = "redis-server"
-        args = [
-          "--appendonly yes"
-        ]
+        command = "bin/sonar.sh"
 
         tty = true
 
         volumes = [
-          "{{ redis_data }}:/data"
+          "{{ sonarqube_data }}:/opt/sonarqube/data"
         ]
 
       }
 
       service {
-        name = "redis"
+        name = "sonarqube-custom"
         port = "port_server"
         address_mode = "driver"
 
@@ -59,7 +56,7 @@ job "redis" {
       }
 
       resources {
-        memory = 1000
+        memory = 4000
       }
 
     }
@@ -67,6 +64,5 @@ job "redis" {
   }
 }
 
-// » docker exec -it 019eb0cea407 redis-cli
-// sudo snap install redis-desktop-manager
-// redis-desktop-manager.rdm  /  LPOP App.Buffer
+// http://sonarqube.service.dc1.consul:9000/
+// http://sonarqube-custom.service.dc1.consul:9000/coding_rules?languages=scala
