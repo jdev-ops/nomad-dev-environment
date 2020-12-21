@@ -1,0 +1,9 @@
+# # config file version
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus.service.dc1.consul:9090
+    access: Browser
+

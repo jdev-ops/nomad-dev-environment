@@ -1,6 +1,4 @@
-job "loki" {
-
-// https://akoutmos.com/post/elixir-logging-loki/
+job "prometheus" {
 
   region = "global"
 
@@ -18,60 +16,47 @@ job "loki" {
 
     network {
       port "port_server" {
-        to = 3100
+        to = 9090
       }
     }
 
-    task "task-loki" {
+    task "task-prometheus" {
       driver = "docker"
-
-      env {
-
-      }
-
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value = "linux"
-      }
 
       config {
 
-        image = "grafana/loki:2.0.0-amd64"
-
-        hostname = "loki.service.dc1.consul"
+        image = "prom/prometheus:v2.23.0"
+        hostname = "prometheus.service.dc1.consul"
 
         ports = [
           "port_server"]
 
         args = [
-          "-config.file=/etc/loki/loki-config.yml",
+          "--config.file=/etc/prometheus/prometheus.yml",
+          "--storage.tsdb.path=/prometheus",
+          "--web.console.libraries=/usr/share/prometheus/console_libraries",
+          "--web.console.templates=/usr/share/prometheus/consoles",
         ]
-
         tty = true
 
         dns_servers = [
           "172.17.0.2"]
 
-        logging {
-          type = "json-file"
-        }
+        extra_hosts = [
+          "host.docker.internal:host-gateway",
+        ]
 
         volumes = [
-          "{{ loki_config }}:/etc/loki/loki-config.yml",
-          "{{ loki_data_index }}:/loki-index",
-          "{{ loki_data_chunks }}:/loki-chunks"
+          "{{ prometheus_data }}:/prometheus",
+          "{{ prometheus_config }}:/etc/prometheus/prometheus.yml",
         ]
 
       }
 
       service {
-
+        name = "prometheus"
         port = "port_server"
         address_mode = "driver"
-        name = "loki"
-
-        tags = [
-        ]
 
         check {
           type = "tcp"
@@ -87,5 +72,6 @@ job "loki" {
       }
 
     }
+
   }
 }

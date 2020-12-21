@@ -1,4 +1,4 @@
-job "dejavu" {
+job "grafana" {
 
   region = "global"
 
@@ -16,24 +16,18 @@ job "dejavu" {
 
     network {
       port "port_server" {
-        to = 1358
+        to = 3000
       }
     }
 
-    task "task-dejavu" {
+    task "task-grafana" {
       driver = "docker"
 
-      env {
-      }
-
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value = "linux"
-      }
-
+      user = "472"
       config {
-        image = "appbaseio/dejavu:3.4.7"
-        hostname = "dejavu.service.dc1.consul"
+
+        image = "grafana/grafana:7.3.6"
+        hostname = "grafana.service.dc1.consul"
 
         ports = [
           "port_server"]
@@ -43,23 +37,18 @@ job "dejavu" {
         dns_servers = [
           "172.17.0.2"]
 
-        logging {
-          type = "json-file"
-        }
-
         volumes = [
+          "{{ grafana_data }}:/var/lib/grafana",
+          "{{ grafana_provisioning }}:/etc/grafana/provisioning",
+          "{{ grafana_config }}:/usr/share/grafana/conf/defaults.ini",
         ]
 
       }
 
       service {
-        name = "dejavu"
-
+        name = "grafana"
         port = "port_server"
         address_mode = "driver"
-
-        tags = [
-        ]
 
         check {
           type = "tcp"
@@ -71,8 +60,10 @@ job "dejavu" {
       }
 
       resources {
+        memory = 1000
       }
 
     }
+
   }
 }

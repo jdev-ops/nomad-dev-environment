@@ -14,6 +14,12 @@ job "fluentd" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 24224
+      }
+    }
+
     task "task-fluentd" {
       driver = "docker"
 
@@ -30,9 +36,8 @@ job "fluentd" {
 
         image = "jalbert/fluentd:td-agent_3.8.0"
 
-        port_map {
-          port_server = 24224
-        }
+        ports = [
+          "port_server"]
 
         tty = true
 
@@ -51,7 +56,7 @@ job "fluentd" {
         }
 
         volumes = [
-//          https://docs.fluentd.org/configuration/config-file
+          //          https://docs.fluentd.org/configuration/config-file
           "{{ fluentd_etc }}:/etc/td-agent"
         ]
 
@@ -77,11 +82,6 @@ job "fluentd" {
 
       resources {
         memory = 1000
-        network {
-          mbits = 20
-          port "port_server" {
-          }
-        }
       }
 
     }

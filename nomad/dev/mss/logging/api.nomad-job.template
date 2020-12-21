@@ -9,6 +9,14 @@ job "api" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 80
+      }
+      port "port_ssh" {
+        to = 22
+      }
+    }
     count = 1
 
     task "task-api" {
@@ -23,12 +31,12 @@ job "api" {
       config {
         image = "jalbert/api:0.1.0-7fba3d"
 
-        port_map {
-          port_server = 80
-          port_ssh = 22
-        }
-
         hostname = "api.service.dc1.consul"
+
+        ports = [
+          "port_server",
+          "port_ssh",
+        ]
 
         logging {
           type = "fluentd"
@@ -73,11 +81,6 @@ job "api" {
       }
 
       resources {
-        network {
-          mbits = 60
-          port "port_server" {}
-          port "port_ssh" {}
-        }
       }
 
     }

@@ -23,9 +23,11 @@ windows:
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/mysql
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/redis
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube
-  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube-custom
+#  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube-custom
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/rabbitmq
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/logs
+#  - jobs: sleep 15 && cli/start-nomad-jobs devOps/p
+#  - jobs: sleep 15 && cli/start-nomad-jobs devOps/g
 
 #  - jobs: sleep 15 && cli/start-nomad-jobs spark/spark
 #  - jobs: sleep 15 && cli/start-nomad-jobs spark/hadoop

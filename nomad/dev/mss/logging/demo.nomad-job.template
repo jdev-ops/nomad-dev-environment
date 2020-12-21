@@ -9,6 +9,15 @@ job "demo" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 4000
+      }
+      port "port_ssh" {
+        to = 22
+      }
+    }
+
     count = 1
 
     task "task-demo" {
@@ -22,12 +31,12 @@ job "demo" {
       config {
         image = "jalbert/phoenix_full:0.1.0-0f98e4"
 
-        port_map {
-          port_server = 4000
-          port_ssh = 22
-        }
-
         hostname = "demo.service.dc1.consul"
+
+        ports = [
+          "port_server",
+          "port_ssh",
+        ]
 
         logging {
           type = "loki"
@@ -36,13 +45,13 @@ job "demo" {
           }
         }
 
-//        logging {
-//          type = "fluentd"
-//          config {
-//            fluentd-address = "fluentd.service.dc1.consul:24224"
-//            tag = "api.logs"
-//          }
-//        }
+        //        logging {
+        //          type = "fluentd"
+        //          config {
+        //            fluentd-address = "fluentd.service.dc1.consul:24224"
+        //            tag = "api.logs"
+        //          }
+        //        }
 
         volumes = [
           "{{ dev_env_directory_elixir }}:/home/app/src",
@@ -77,11 +86,6 @@ job "demo" {
       }
 
       resources {
-        network {
-          mbits = 60
-          port "port_server" {}
-          port "port_ssh" {}
-        }
       }
 
     }

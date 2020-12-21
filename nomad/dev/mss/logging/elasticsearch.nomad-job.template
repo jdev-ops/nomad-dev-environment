@@ -14,6 +14,18 @@ job "elasticsearch" {
 
   group "server" {
 
+    network {
+      port "port_server" {
+        to = 9200
+      }
+      port "port2" {
+        to = 9300
+      }
+      port "port3" {
+        to = 22
+      }
+    }
+
     task "task-elasticsearch" {
       driver = "docker"
 
@@ -31,20 +43,20 @@ job "elasticsearch" {
         image = "jalbert/elasticsearch:7.9.2"
         hostname = "elasticsearch.service.dc1.consul"
 
-        port_map {
-          port_server = 9200
-          port2 = 9300
-          port3 = 22
-        }
+        ports = [
+          "port_server",
+          "port2",
+          "port3",
+        ]
 
         tty = true
 
         dns_servers = [
           "172.17.0.2"]
 
-//        logging {
-//          type = "json-file"
-//        }
+        //        logging {
+        //          type = "json-file"
+        //        }
 
         volumes = [
           "{{ elasticsearch_config }}:/home/app/elasticsearch/config/",
@@ -72,12 +84,10 @@ job "elasticsearch" {
       }
 
       resources {
-        cpu    = 10000
+        cpu = 10000
         memory = 50000
 
         network {
-          port "port_server" {
-          }
         }
       }
 

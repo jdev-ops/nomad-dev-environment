@@ -85,6 +85,7 @@ def deployment():
         msg = str.encode(str(res) + "\n")
 
         # nomad job run -address http://172.16.10.65:4646 /home/a/src/devOps/nomad/dev/mss/redis.nomad-job.template
+        # nomad job run -address http://172.16.10.65:4646 /home/a/src/devOps/nomad/dev/mss/logging/prometheus.nomad-job.template
 
         # print(f"SENDING: {msg}")
         # open("msg.json", "w").write(str(res))
