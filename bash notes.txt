@@ -2,6 +2,9 @@
 # uchardet - universalchardet (Universal Charset Detector)
 sudo apt-get install uchardet libuchardet-dev
 
+# https://vitux.com/find-out-which-port-number-a-process-is-listening-on-using-linux/
+sudo apt install net-tools
+# sudo netstat -ltnp
 
 # listado de datos de los procesos activos
 ps faux
@@ -27,6 +30,12 @@ sudo lsof -i -P -n | grep LISTEN
 sudo netstat -tulpn | grep LISTEN
 sudo nmap -sTU -O IP-address-Here
 sudo netstat -lptn
+» sudo netstat -ntap
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:2022            0.0.0.0:*               LISTEN      1159/etserver
+tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN      122083/mitmweb
+
 
 $ sudo lsof -i -P -n
 $ sudo lsof -i -P -n | grep LISTEN
@@ -126,7 +135,8 @@ docker run --rm --interactive --tty --name dev centos:7
 
 # The following command will cycle through all containers and attempt to remove it.
 # NOTE: This will fail on running containers (you will get an error message, but it
-# will just move on to the next one) $ sudo docker ps -a | grep -v CONTAINER | awk '{ print $1 }' | xargs -L 1 sudo docker rm
+# will just move on to the next one)
+docker ps -a | grep -v CONTAINER | awk '{ print $1 }' | xargs -L 1 docker rm
 
 # OJO: delete all containers
 docker ps -a | tail -n +2 | cut -d " " -f 1 | xargs docker rm
@@ -191,7 +201,10 @@ to set the noatime mount option for the mount point
 sudo umount -l /dev/sdc1
 sudo fdisk /dev/sdc
 # https://www.tecmint.com/create-new-ext4-file-system-partition-in-linux/
+
+sudo apt-get install exfat-fuse exfat-utils
 sudo mkfs.exfat /dev/sdc1
+
 
 
 # AWS
@@ -515,19 +528,11 @@ $ sudo dmidecode --type 17
 » ssh-keygen -E md5 -lf ~/.ssh/id_rsa.pub
 4096 MD5:17:6b:a2:52:c4:31:5e:33:2b:4d:be:93:55:20:6b:48 jalbertcruz@gmail.com (RSA)
 
-# ripgrep ( rg )
-# https://github.com/BurntSushi/ripgrep/blob/3d59bd98aaea776092168f8feaf5daeeaf743cbf/GUIDE.md
-If we wanted, we could tell ripgrep to search anything but *.toml files:
-
-$ rg clap -g '!*.toml'
-
-» rg def -g "*.scala"
-
 # Elixir install
 » kiex list releases
-» kiex install 1.11.2
+» kiex install 1.11.3
 
-mix archive.install hex phx_new 1.5.6
+mix archive.install hex phx_new 1.5.8
 mix new x --sup
 mix phx.new x --no-html --no-webpack --no-ecto
 mix phx.new x --no-ecto --live
@@ -726,3 +731,11 @@ Available interfaces: br-c6d290106d08 wlp2s0 enp3s0f1 docker0
 » vnstat -h
 
  wlp2s0  /  hourly
+
+
+# ps tool -- process managment
+» ps -ef | grep code
+» ps aux | grep code
+
+# https://stackoverflow.com/questions/8206280/delete-all-lines-beginning-with-a-from-a-file
+sed '/\(/ d' < 1.srt > outputFile.srt

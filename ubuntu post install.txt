@@ -3,6 +3,12 @@
 sudo apt-get update
 sudo apt-get install -y tree meld basez cgroup-tools zsh curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev libffi-dev python3-pip python-pip zeal vlc python3-venv
 
+# https://github.com/MisterTea/EternalTerminal
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository ppa:jgmath2000/et
+sudo apt-get update
+sudo apt-get install -y et
+
 # install tmux manually: version 3 is not in the repos
 
 sudo add-apt-repository ppa:git-core/ppa

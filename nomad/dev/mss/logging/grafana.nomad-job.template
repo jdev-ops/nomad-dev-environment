@@ -26,7 +26,7 @@ job "grafana" {
       user = "472"
       config {
 
-        image = "grafana/grafana:7.3.6"
+        image = "grafana/grafana:7.4.0"
         hostname = "grafana.service.dc1.consul"
 
         ports = [

@@ -7,6 +7,13 @@ job "http-echo1" {
     "dc1"]
   group "echo" {
     count = 3
+
+    network {
+
+      port "http" {
+      }
+    }
+
     task "server" {
       driver = "docker"
       config {
@@ -17,13 +24,11 @@ job "http-echo1" {
           "-text",
           "Hello from echo 1, and welcome to this server: ${NOMAD_IP_http}, running on ${NOMAD_PORT_http}",
         ]
+
+        ports = ["http"]
       }
-      resources {
-        network {
-          mbits = 10
-          port "http" {}
-        }
-      }
+
+
       service {
         name = "http-echo1"
         port = "http"

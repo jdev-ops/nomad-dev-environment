@@ -25,7 +25,7 @@ job "prometheus" {
 
       config {
 
-        image = "prom/prometheus:v2.23.0"
+        image = "prom/prometheus:v2.24.1"
         hostname = "prometheus.service.dc1.consul"
 
         ports = [

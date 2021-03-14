@@ -43,6 +43,7 @@ job "rabbitmq" {
 
       config {
 
+        // 3.8.9
         image = "rabbitmq:3.8.2-management"
         hostname = "rabbitmq.service.dc1.consul"
 

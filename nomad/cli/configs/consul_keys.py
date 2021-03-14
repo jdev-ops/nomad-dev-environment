@@ -117,4 +117,8 @@ consul_keys = {
         'POSTGRES_DATABASE_PASS': '11qazxsw22',
     },
 
+    'devops_user_node-config-': {
+        'DATABASE_URL': 'ecto://root:mysecretpw@mysql.service.dc1.consul:3306/user-node-incubating',
+    },
+
 }

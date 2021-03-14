@@ -12,6 +12,7 @@ windows:
   - con-client: consul-client-start
   - con-client2: sleep 1 && consul-client2-start
   - con-server: sleep 3 && consul-server-start
+  - con-esm: sleep 3 && consul-esm-start
 #  - config-data: sleep 5 && python cli/load-consul-kv.py
 
   - nmd: sleep 0 && nomad agent -config cli/configs/nomad-client-server.hcl
@@ -19,15 +20,16 @@ windows:
 #  - res: cd resources/ && sleep 10 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix nomad- ../cli/bin/webserver-start
   - monitor: sleep 10 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix nomad- python cli/servers/consul-monitor.py
 
+  - jobs: sleep 25 && cli/start-nomad-jobs betika/betradar
+#  - jobs: sleep 15 && cli/start-nomad-jobs devOps/g
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/postgres
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/mysql
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/redis
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube
 #  - jobs: sleep 15 && cli/start-nomad-jobs general/sonarqube-custom
-#  - jobs: sleep 15 && cli/start-nomad-jobs general/rabbitmq
+#  - jobs: sleep 25 && cli/start-nomad-jobs general/rabbitmq
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/logs
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/p
-#  - jobs: sleep 15 && cli/start-nomad-jobs devOps/g
 
 #  - jobs: sleep 15 && cli/start-nomad-jobs spark/spark
 #  - jobs: sleep 15 && cli/start-nomad-jobs spark/hadoop
@@ -40,13 +42,15 @@ windows:
 #  - jobs: sleep 15 && cli/start-nomad-jobs sb/sbox
 #  - jobs: sleep 15 && cli/start-nomad-jobs poc/php
 #  - jobs: sleep 15 && cli/start-nomad-jobs poc/flb
+#  - jobs: sleep 15 && cli/start-nomad-jobs poc/fabio-test2
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/es
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/l
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/demo
 #  - jobs: sleep 15 && cli/start-nomad-jobs devOps/mss
 
 #  - jobs: sleep 15 && cli/start-nomad-jobs orion/mktplace
-#  - jobs: sleep 15 && cli/start-nomad-jobs bin-repos/nexus
+#  - jobs: sleep 25 && cli/start-nomad-jobs bin-repos/nexus
+#  - hap: sleep 60 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -log-level="err" -prefix haproxy-config- haproxy-start
 
 #  - mitmp: sleep 12 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix mitmproxy-config- mitmproxy-start
 #  - hverf: sleep 12 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix hoverfly-config- -prefix mitmproxy-config- hoverfly-start
@@ -62,4 +66,3 @@ windows:
 #  - alertmgr: sleep 12 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix alertmanager-config- alertmanager-start
 #  - grk_ex: sleep 12 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -prefix grok_exporter-config- grok_exporter-start
 
-#  - hap: sleep 60 && envconsul -log-level="err" -consul-addr=172.16.10.65:8500 -log-level="err" -prefix haproxy-config- haproxy-start

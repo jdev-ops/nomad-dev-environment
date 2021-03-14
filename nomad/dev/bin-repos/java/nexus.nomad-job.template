@@ -36,7 +36,7 @@ job "nexus" {
       config {
 //        load = "sonatype__nexus3_3.17.0.tar"
         image = "sonatype/nexus3:3.27.0"
-//        image = "sonatype/nexus3:3.29.0"
+//        image = "sonatype/nexus3:3.29.2"
 
         ports = [
           "port_server"]
