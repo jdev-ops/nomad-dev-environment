@@ -34,7 +34,7 @@ job "fluentd" {
 
       config {
 
-        image = "jalbert/fluentd:td-agent_3.8.0"
+        image = "jalbert/fluentd:td-agent_4.1.0"
 
         ports = [
           "port_server"]
