@@ -16,26 +16,36 @@ job "grafana" {
 
     network {
       port "port_server" {
-        to = 3000
+        static = 3000
+      }
+      dns {
+        servers = [
+          "172.17.0.2", "8.8.8.8", "8.8.4.4"
+        ]
       }
     }
 
     task "task-grafana" {
       driver = "docker"
 
+      env {
+        GF_LOG_LEVEL          = "DEBUG"
+        GF_LOG_MODE           = "console"
+        GF_SERVER_HTTP_PORT   = "${NOMAD_PORT_port_server}"
+        GF_PATHS_PROVISIONING = "/etc/grafana/provisioning"
+      }
+
       user = "472"
+
       config {
 
-        image = "grafana/grafana:7.4.0"
+        image = "grafana/grafana:7.5.2"
         hostname = "grafana.service.dc1.consul"
 
         ports = [
           "port_server"]
 
         tty = true
-
-        dns_servers = [
-          "172.17.0.2"]
 
         volumes = [
           "{{ grafana_data }}:/var/lib/grafana",
@@ -48,13 +58,22 @@ job "grafana" {
       service {
         name = "grafana"
         port = "port_server"
+        tags = ["monitoring"]
+
         address_mode = "driver"
 
         check {
-          type = "tcp"
-          port = "port_server"
-          interval = "10s"
-          timeout = "2s"
+          name     = "Grafana HTTP"
+          type     = "http"
+          path     = "/api/health"
+          interval = "5s"
+          timeout  = "2s"
+
+          check_restart {
+            limit           = 2
+            grace           = "60s"
+            ignore_warnings = false
+          }
         }
 
       }

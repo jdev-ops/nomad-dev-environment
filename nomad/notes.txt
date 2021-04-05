@@ -123,3 +123,6 @@ ping postgres-sb.service.dc1.consul
 ping nexus.service.dc1.consul
 
 nslookup postgres-sb.service.dc1.consul 172.17.0.2
+
+# https://github.com/hashicorp/levant
+curl -L https://github.com/hashicorp/levant/releases/download/0.3.0/linux-amd64-levant -o levant

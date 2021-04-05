@@ -21,9 +21,15 @@ consul_keys = {
         'loki_data_index': '/home/a/dockers-data/loki/loki-index',
         'loki_data_chunks': '/home/a/dockers-data/loki/loki-chunks',
         'loki_config': '/home/a/src/devOps/nomad/cli/configs/loki/loki-config.yml',
+
         'prometheus_config': '/home/a/src/devOps/nomad/cli/configs/prometheus/prometheus.yml',
+
         'grafana_config': '/home/a/src/devOps/nomad/cli/configs/grafana/custom.ini',
         'grafana_provisioning': '/home/a/src/devOps/nomad/cli/configs/grafana/provisioning',
+
+        'tempo_config': '/home/a/src/devOps/nomad/cli/configs/tempo/etc/tempo-local.yaml',
+        'tempo_wal': '/home/a/dockers-data/tempo/wal',
+        'tempo_blocks': '/home/a/dockers-data/tempo/blocks',
 
         'mysql_orion_data': '/home/a/dockers-data/mysql-orion-mktplace',
         'mysql_data': '/home/a/dockers-data/mysql',
@@ -119,6 +125,24 @@ consul_keys = {
 
     'devops_user_node-config-': {
         'DATABASE_URL': 'ecto://root:mysecretpw@mysql.service.dc1.consul:3306/user-node-incubating',
+    },
+
+    'betika_user_node-config-': {
+        'AMQP_USERNAME': 'rabbitmq',
+        'AMQP_PASSWORD': 'rabbitmq',
+        'AMQP_HOST': 'rabbitmq.service.dc1.consul',
+        'AMQP_EXCHANGE': 'user_node',
+        'MYSQL_USER': 'root',
+        'MYSQL_ROOT_PASSWORD': 'mysecretpw',
+        'MYSQL_HOST': 'mysql.service.dc1.consul',
+    },
+
+    'betika_user_node-test-config-':{
+        'MYSQL_DATABASE': 'user_node_test',
+    },
+
+    'betika_user_node-dev-config-': {
+        'MYSQL_DATABASE': 'user_node_dev',
     },
 
 }

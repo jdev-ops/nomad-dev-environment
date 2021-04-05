@@ -34,7 +34,7 @@ nomad_address = "172.16.10.65"
 
 @app.route('/services', methods=["POST"])
 def services():
-    print("********")
+    print("******** -------------------------- ====================================")
     print(request.json)
     return {"state": "ok"}, 200
 

@@ -6,9 +6,9 @@ import json
 
 pr = jwk.dumps(open('private_key.pem').read(), kty='RSA', alg="RS256")
 pu = jwk.dumps(open('public_key.pem').read(), kty='RSA', alg="RS256")
-alg_name = "alg1"
-pr["kid"] = alg_name
-pu["kid"] = alg_name
+alg_id = "id-1"
+pr["kid"] = alg_id
+pu["kid"] = alg_id
 
 result = {
     "keys": [

@@ -18,25 +18,35 @@ job "loki" {
 
     network {
       port "port_server" {
-        to = 3100
+        static = 3100
       }
+
+      dns {
+        servers = [
+          "172.17.0.2", "8.8.8.8", "8.8.4.4"
+        ]
+      }
+
     }
 
     task "task-loki" {
       driver = "docker"
 
       env {
-
+        JAEGER_AGENT_HOST    = "tempo.service.dc1.consul"
+        JAEGER_TAGS          = "cluster=nomad"
+        JAEGER_SAMPLER_TYPE  = "probabilistic"
+        JAEGER_SAMPLER_PARAM = "1"
       }
 
-      constraint {
-        attribute = "${attr.kernel.name}"
-        value = "linux"
-      }
+//      constraint {
+//        attribute = "${attr.kernel.name}"
+//        value = "linux"
+//      }
 
       config {
 
-        image = "grafana/loki:2.0.0-amd64"
+        image = "grafana/loki:2.2.0-amd64"
 
         hostname = "loki.service.dc1.consul"
 
@@ -49,8 +59,8 @@ job "loki" {
 
         tty = true
 
-        dns_servers = [
-          "172.17.0.2"]
+//        dns_servers = [
+//          "172.17.0.2"]
 
         logging {
           type = "json-file"

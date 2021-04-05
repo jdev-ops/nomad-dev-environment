@@ -24,7 +24,7 @@ Allocations
 ID        Node ID   Task Group  Version  Desired  Status  Created     Modified
 30321a96  d7331af9  server      2        run      failed  1m32s ago   1m28s ago
 
-» nomad alloc status  30321a96
+» nomad alloc status 30321a96
 
 ...
 
@@ -43,3 +43,9 @@ Time                       Type             Description
 2020-12-21T00:34:16+01:00  Task Setup       Building Task Directory
 2020-12-21T00:34:16+01:00  Received         Task received by client
 
+### ./up1.sh mysql /bin/bash # it open a shell on the first mysql job allocation
+#!/bin/bash
+
+id=$(nomad job status -evals $1 | tail -n 1 | awk '{print $1}')
+cmd="${2:-/bin/bash}"
+nomad alloc exec $id $cmd

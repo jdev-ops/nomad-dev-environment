@@ -92,6 +92,9 @@ Treat the <string> given to -S as an extended POSIX regular expression to match.
            When -S or -G finds a change, show all the changes in that changeset, not just the files that contain the change in <string>.
 
 
+You may have used Git’s -G<regex> option to find commits which modified a line that mentions a particular string (e.g., git log -G'foo\(' will look for changes that added, removed, or modified calls to the foo() function). But you may also want to ignore lines matching a certain pattern. Git 2.30 introduces -I<regex>, which lets you ignore changes in lines matching a regular expression. For instance, git log -p -I'//' would show the patch for each commit, but omit any hunks that only touched comment lines (those containing //).
+
+
 Extra
 
 Automating git

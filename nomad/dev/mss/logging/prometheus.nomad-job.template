@@ -16,7 +16,12 @@ job "prometheus" {
 
     network {
       port "port_server" {
-        to = 9090
+        static = 9090
+      }
+      dns {
+        servers = [
+          "172.17.0.2", "8.8.8.8", "8.8.4.4"
+        ]
       }
     }
 
@@ -25,7 +30,7 @@ job "prometheus" {
 
       config {
 
-        image = "prom/prometheus:v2.24.1"
+        image = "prom/prometheus:v2.26.0"
         hostname = "prometheus.service.dc1.consul"
 
         ports = [
@@ -37,10 +42,8 @@ job "prometheus" {
           "--web.console.libraries=/usr/share/prometheus/console_libraries",
           "--web.console.templates=/usr/share/prometheus/consoles",
         ]
-        tty = true
 
-        dns_servers = [
-          "172.17.0.2"]
+        tty = true
 
         extra_hosts = [
           "host.docker.internal:host-gateway",

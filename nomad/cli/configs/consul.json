@@ -15,6 +15,23 @@
         "timeout": "10s",
         "tls_skip_verify": false
       }
+    },
+    {
+      "type": "key",
+      "key": "user-node/sms-active",
+      "handler_type": "http",
+      "http_handler_config": {
+        "path": "http://localhost:4040/management/update",
+        "method": "POST",
+        "header": {
+          "x-foo": [
+            "bar",
+            "baz"
+          ]
+        },
+        "timeout": "10s",
+        "tls_skip_verify": true
+      }
     }
   ]
 }
