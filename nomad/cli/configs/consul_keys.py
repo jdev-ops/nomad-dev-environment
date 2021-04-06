@@ -23,6 +23,8 @@ consul_keys = {
         'loki_config': '/home/a/src/devOps/nomad/cli/configs/loki/loki-config.yml',
 
         'prometheus_config': '/home/a/src/devOps/nomad/cli/configs/prometheus/prometheus.yml',
+        'prometheus_alerts': '/home/a/src/devOps/nomad/cli/configs/prometheus/alert_rules',
+        'prometheus_data': '/home/a/dockers-data/prometheus',
 
         'grafana_config': '/home/a/src/devOps/nomad/cli/configs/grafana/custom.ini',
         'grafana_provisioning': '/home/a/src/devOps/nomad/cli/configs/grafana/provisioning',
@@ -31,12 +33,17 @@ consul_keys = {
         'tempo_wal': '/home/a/dockers-data/tempo/wal',
         'tempo_blocks': '/home/a/dockers-data/tempo/blocks',
 
+        'alert_manager_config': '/home/a/src/devOps/nomad/cli/configs/alert_manager/alertmanager.yml',
+        'alert_manager_volume': '/home/a/dockers-data/alert_manager',
+
         'mysql_orion_data': '/home/a/dockers-data/mysql-orion-mktplace',
         'mysql_data': '/home/a/dockers-data/mysql',
         'redis_data': '/home/a/dockers-data/redis',
-        'prometheus_data': '/home/a/dockers-data/prometheus',
+
         'grafana_data': '/home/a/dockers-data/grafana',
+
         'sonarqube_data': '/home/a/dockers-data/sonarqube',
+
         # 'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/files_service/priv/files',
         'files_service_app_data': '/home/a/src/a/sb/POCs/gateways-poc/services/fs/priv/static',
         # 'krakend_config_data': '/home/a/src/a/sb/POCs/gateways-poc/devOps/krakend',
