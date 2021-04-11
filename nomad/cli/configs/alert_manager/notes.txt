@@ -1,0 +1,2 @@
+
+karma --alertmanager.uri http://alertmanager.service.dc1.consul:909

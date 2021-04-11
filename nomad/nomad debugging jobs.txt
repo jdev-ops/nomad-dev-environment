@@ -1,6 +1,6 @@
-» nomad job status -evals prometheus
-ID            = prometheus
-Name          = prometheus
+» nomad job status -evals prom
+ID            = prom
+Name          = prom
 Submit Date   = 2020-12-21T00:26:16+01:00
 Type          = service
 Priority      = 50

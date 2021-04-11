@@ -1,4 +1,4 @@
-job "prometheus" {
+job "prom" {
 
   region = "global"
 
@@ -12,7 +12,7 @@ job "prometheus" {
     max_parallel = 1
   }
 
-  group "server" {
+  group "prom" {
 
     network {
       port "port_server" {
@@ -25,13 +25,13 @@ job "prometheus" {
       }
     }
 
-    task "task-prometheus" {
+    task "prom" {
       driver = "docker"
 
       config {
 
         image = "prom/prometheus:v2.26.0"
-        hostname = "prometheus.service.dc1.consul"
+        hostname = "prom.service.dc1.consul"
 
         ports = [
           "port_server"]
@@ -41,6 +41,7 @@ job "prometheus" {
           "--storage.tsdb.path=/prometheus",
           "--web.console.libraries=/usr/share/prometheus/console_libraries",
           "--web.console.templates=/usr/share/prometheus/consoles",
+          "--web.enable-lifecycle"
         ]
 
         tty = true
@@ -58,7 +59,7 @@ job "prometheus" {
       }
 
       service {
-        name = "prometheus"
+        name = "prom"
         port = "port_server"
         address_mode = "driver"
 
